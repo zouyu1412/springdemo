@@ -1,0 +1,16 @@
+**/target/
+# Compiled class file
+*.class
+# Log file
+*.log
+*.log.*
+
+.idea/**/**.xml
+/**/target
+/auto-dealer-data/**/target
+**/au
+*.iml
+.classpath
+.settings/*
+.project
+src/test/*
