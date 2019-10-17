@@ -1,5 +1,6 @@
 package com.ssp.higher.web.controller;
 
+import com.ssp.higher.web.annotation.RequestPage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date:2019/8/8 15:55
  */
 @Controller
+@RequestPage(name = "index")
 public class PageController {
 
     @RequestMapping("index")

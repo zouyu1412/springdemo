@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+
+    .layui-table-cell{
+        height:auto !important;
+    }
+</style>
+<body th:if="${sysAuthority.hasRole('ROLE_PECKER')}">
+<!-- 内容主体区域 -->
+
+<div th:if="! ${caseId}">
+    <h1>数据不存在</h1>
+    <h1>请返回检查数据</h1>
+</div>
+<div th:if="${caseId}">
+
+        <div classs="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" onclick="location.reload()">刷新</button>
+                <button class="layui-btn" onclick="changeContent()" >修改权重和内容</button>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">投诉权重</label>
+            <div class="layui-input-block">
+                <input type="text" name="weight" id = "weight" placeholder="修改权重" autocomplete="off" class="layui-input" th:value="${peckerCase?.weight }"/>
+            </div>
+        </div>
+
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">投诉内容</label>
+        <div class="layui-input-block">
+            <textarea name="content" id="content" placeholder="投诉内容" class="layui-textarea" rows="15" th:text="${peckerCaseDetail?.content }"></textarea>
+        </div>
+    </div>
+
+    <table id="peckerCasePic" lay-filter="test"></table>
+
+    <div class="layui-inline">
+        <label class="layui-form-label">搜狐发声</label>
+        <button class="layui-btn layuiadmin-btn-admin" onclick="peckerSohuVoicesMod(0,0)">添加搜狐发声</button>
+        <button class="layui-btn layuiadmin-btn-admin" onclick="batchMod()">批量添加</button>
+        <button class="layui-btn layuiadmin-btn-admin" title="只刷新表格部分" onclick="layui.table.reload('peckerSohuVoice')">重载表格</button>
+    </div>
+    <table id="peckerSohuVoice" lay-filter="test"></table>
+
+    <div class="layui-inline">
+        <label class="layui-form-label">相关案例</label>
+        <button class="layui-btn layuiadmin-btn-admin" onclick="peckerRelatedCasesMod(0,0)">添加相关案例</button>
+        <button class="layui-btn layuiadmin-btn-admin" title="只刷新表格部分" onclick="layui.table.reload('peckerRelatedCase')">重载表格</button>
+        <button class="layui-btn" title="刷新整个页面" onclick="location.reload()">刷新</button>
+    </div>
+    <table id="peckerRelatedCase" lay-filter="test"></table>
+
+
+    <script type="text/html" id="pic1">
+        {{#  if(d.picUrl != null){ }}
+        <div  style="width:10px" ><img src="{{ d.picUrl}}"  ></div>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="titleTplStatus">
+        {{#  if(d.status == 0){ }}
+        <button class="layui-btn layui-btn-xs">已发布</button>
+        {{#  } else if(d.status == 1) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs">已发布</button>
+        {{#  } }}
+    </script>
+
+
+</div>
+
+<script th:inline="javascript">
+    var caseId = [[${caseId}]];
+
+    var title ='[(${peckerCase?.companyNameOne})] [(${peckerCase?.companyNameTwo})] [(${peckerCase?.title})]' ;
+
+    layui.use('table', function () {
+        table = layui.table;
+        var form = layui.form;
+        form.on('submit(formDemo)', function(data){
+            //执行 Ajax 后重载
+            $.ajax({
+                url: "/pecker/peckerSohuVoiceMod",
+                type: "POST",
+                contentType:"application/json;charset=utf-8",
+                data: JSON.stringify(data.field),
+                //参数是json字符串
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                }
+            });
+            parent.layui.table.reload('peckerSohuVoice');
+            return false;
+        });
+
+        //第一个实例
+        table.render({
+            elem: '#peckerCasePic'
+            , height: 312
+            , url: '/pecker/listPeckerCasePic/list/' + caseId //数据接口
+            , page: true //开启分页
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            , limit: 20
+            , cols: [[ //表头
+                {field: 'id', title: '图片ID', sort: true, width: 80}
+                , {field: 'caseId', title: '投诉ID', sort: true}
+                ,{ field: 'picUrl', title: '图片', templet:'#pic1'}
+                , {field: 'status', title: '状态',templet:'#titleTplStatus',  sort: true }
+                , {field: 'createTime', title: '上传时间', sort: true }
+                , {
+                    field: 'mod', title: '操作', width: '29%',
+                    templet:
+                        '<div> ' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" title="你确定要删除该图片吗？" targetUrl="peckerCasePic" onclick="changeStatus(this,1)" >删除该图片</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" title="你确定要删除该图片吗？" targetUrl="peckerCasePic" onclick="changeStatus(this,0)" >恢复该图片</intput> &nbsp;' +
+                        '</div>'
+                }
+            ]]
+        });
+        //第二个实例 搜狐发声
+        table.render({
+            elem: '#peckerSohuVoice'
+            , height: 312
+            , url: '/pecker/listPeckerSohuVoice/list/' + caseId //数据接口
+            , page: true //开启分页
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            , cols: [[ //表头
+                {field: 'id', title: '图片ID', sort: true, width: "5%"}
+                , {field: 'caseId', title: '投诉ID', sort: true, width: "5%"}
+                , {field: 'title', title: '标题'}
+                , {field: 'url', title: 'URL'}
+                , {field: 'weight', title: '权重', sort: true, width: "5%"}
+                , {field: 'status', title: '状态', templet: '#titleTplStatus', sort: true, width: "5%"}
+                , {field: 'updateUser', title: '更新人员', sort: true}
+                , {field: 'updateTime', title: '更新时间', sort: true}
+                , {
+                    field: 'mod', title: '操作', width: '29%',
+                    templet:
+                        '<div> ' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" title="你确定要删除该发声吗？" targetUrl="peckerSohuVoice" onclick="changeStatus(this,1)" >删除该发声</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" title="你确定要恢复该发声吗？" targetUrl="peckerSohuVoice" onclick="changeStatus(this,0)" >恢复该发声</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" onclick="peckerSohuVoicesMod({{d.id}},1)" >修改该发声</intput> &nbsp;' +
+                        '</div>'
+                }
+            ]]
+        });
+        //第三个实例 相关案例
+        table.render({
+            elem: '#peckerRelatedCase'
+            , height: 312
+            , url: '/pecker/listPeckerRelatedCase/list/' + caseId //数据接口
+            , page: true //开启分页
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            , cols: [[ //表头
+                {field: 'id', title: 'ID', sort: true, width: 80}
+                , {field: 'caseId', title: '投诉ID', sort: true, width: "5%"}
+                , {field: 'title', title: '标题'}
+                , {field: 'url', title: 'URL'}
+                , {field: 'heat', title: '热度', sort: true, width: "5%"}
+                , {field: 'relevancy', title: '相关度', sort: true, width: "5%"}
+                , {field: 'weight', title: '权重', sort: true, width: "5%"}
+                , {field: 'status', title: '状态', templet: '#titleTplStatus', sort: true, width: "5%"}
+                , {field: 'updateUser', title: '更新人员', sort: true}
+                , {field: 'updateTime', title: '更新时间', sort: true}
+                , {
+                    field: 'mod', title: '操作', width: '29%',
+                    templet:
+                        '<div> ' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" title="你确定要删除该案例吗？" targetUrl="peckerRelatedCase" onclick="changeStatus(this,1)"  >删除该案例</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" title="你确定要恢复该案例吗？" targetUrl="peckerRelatedCase" onclick="changeStatus(this,0)"  >恢复该案例</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" onclick="peckerRelatedCasesMod({{d.id}},1)" >修改该案例</intput> &nbsp;' +
+                        '</div>'
+                }
+            ]]
+        });
+
+    });
+
+    function tableReload( tableElem) {
+        layui.table.reload(tableElem);
+    }
+
+
+    function changeContent( ) {
+
+       var weight =  $("#weight").val();
+       var content =  $("#content").val();
+        layer.confirm("你确定要修改权重和内容？", {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "/pecker/peckerCase/change/" + caseId,
+                type:"POST",
+                data:"weight=" + weight+"&content="+content,
+                success: function (data) {
+                    layer.msg(data.msg);
+                }
+            });
+        }, function () {
+        });
+    }
+
+
+    function changeStatus(text, status) {
+        if (status != 0 && status != 1) {
+            return false;
+        }
+        var id = $(text).attr("value");
+        var title = $(text).attr("title");
+        var targetUrl = $(text).attr("targetUrl");
+        layer.confirm(title, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "/pecker/" + targetUrl + "/status/" + id + "/" + status,
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                    // 执行重载
+                    layui.table.reload(targetUrl);
+                }
+            });
+        }, function () {
+        });
+    }
+
+
+
+    //iframe层
+    function peckerSohuVoicesMod(id, type) {
+        if (id == null) {
+            id = 0;
+        }
+        if (type == null) {
+            type = 0;
+        }
+        var title = '搜狐发声 - 新增页面';
+        if (type == 1) {
+            title = '搜狐发声 - 修改页面';
+        }
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['50%', '70%'],
+            content: '/pecker/peckerSohuVoiceMod.html?caseId=' + caseId + '&id=' + id  //iframe的url
+        });
+    }
+    //iframe层
+    function peckerRelatedCasesMod(id, type) {
+        if (id == null) {
+            id = 0;
+        }
+        if (type == null) {
+            type = 0;
+        }
+        var title = '相关案例 - 新增页面';
+        if (type == 1) {
+            title = '相关案例 - 修改页面';
+        }
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['50%', '70%'],
+            content: '/pecker/peckerRelatedCaseMod.html?caseId=' + caseId + '&id=' + id  //iframe的url
+        });
+    }
+
+    function batchMod( ) {
+        layer.open({
+            type: 2,
+            title: '搜狐报道 - 批量添加 -' + caseId,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['80%', '90%'],
+            content: '/pecker/peckerSohuVoiceBatch.html?caseId=' + caseId+ '&title=' + title
+        });
+    }
+
+</script>
+</body>
+
+</html>

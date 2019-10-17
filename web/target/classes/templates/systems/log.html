@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+
+<body th:if="${! sysAuthority.hasRole('ROLE_ADMIN')}">没有权限</body>
+<body th:if="${sysAuthority.hasRole('ROLE_ADMIN')}">
+<div class="layui-form ">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">标题搜索</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" placeholder="请输入，支持模糊搜索" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">执行账户</label>
+            <div class="layui-input-block">
+                <input type="text" name="updateUser" placeholder="请输入，精准匹配" autocomplete="off" class="layui-input" th:if="${ sysLogUpdateUser == null}"/>
+                <input type="text" name="updateUser" placeholder="请输入，精准匹配" autocomplete="off" class="layui-input" th:if="${ sysLogUpdateUser != null}" th:value="${ sysLogUpdateUser}"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">IP地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="ip" placeholder="请输入，精准匹配" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">参数搜索</label>
+            <div class="layui-input-block">
+                <input type="text" name="param" placeholder="请输入，支持模糊搜索" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">执行角色</label>
+            <div class="layui-input-block">
+                <select name="roleType" lay-search>
+                    <option value=""></option>
+                    <option value="0">公共角色</option>
+                    <option value="1">管理员</option>
+                    <option value="2">编辑角色</option>
+                    <option value="3">流编辑</option>
+                    <option value="4">投票编辑</option>
+                    <option value="5">投诉管理</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">执行类型</label>
+            <div class="layui-input-block">
+                <select name="businessType" lay-search>
+                    <option value=""></option>
+                    <option value="0">其它</option>
+                    <option value="1">新增</option>
+                    <option value="2">删除</option>
+                    <option value="3">查询</option>
+                    <option value="4">修改</option>
+                    <option value="5">登陆</option>
+                    <option value="6">退出</option>
+                </select>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+            <button class="layui-btn layuiadmin-btn-admin" title="只刷新表格部分" onclick="layui.table.reload('demo')">重载表格</button>
+            <button class="layui-btn" title="刷新整个页面" onclick="location.reload()">刷新</button>
+        </div>
+    </div>
+</div>
+
+<div class="layui-card-body">
+    <table id="demo" lay-filter="test"></table>
+    <script type="text/html" id="titleTplRoleType">
+        {{#  if(d.roleType == 0){ }}
+        <button class="layui-btn layui-btn-xs">公共角色</button>
+        {{#  } else if(d.roleType == 1) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-danger">管理员</button>
+        {{#  } else if(d.roleType == 2) { }}
+        <button class="layui-btn layui-btn-xs">编辑角色</button>
+        {{#  } else if(d.roleType == 3) { }}
+        <button class="layui-btn layui-btn-xs">流编辑</button>
+        {{#  } else if(d.roleType == 4) { }}
+        <button class="layui-btn layui-btn-xs">投票编辑</button>
+        {{#  } else if(d.roleType == 5) { }}
+        <button class="layui-btn layui-btn-xs">投诉管理</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs">公共角色</button>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="titleTplBusinessType">
+        {{#  if(d.businessType == 0){ }}
+        <button class="layui-btn layui-btn-xs">其它</button>
+        {{#  } else if(d.businessType == 1) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-primary ">新增</button>
+        {{#  } else if(d.businessType == 2) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+        {{#  } else if(d.businessType == 3) { }}
+        <button class="layui-btn layui-btn-xs">查询</button>
+        {{#  } else if(d.businessType == 4) { }}
+        <button class="layui-btn layui-btn-xs">修改</button>
+        {{#  } else if(d.businessType == 5) { }}
+        <button class="layui-btn layui-btn-xs">登陆</button>
+        {{#  } else if(d.businessType == 6) { }}
+        <button class="layui-btn layui-btn-xs">退出</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs">其它</button>
+        {{#  } }}
+    </script>
+
+</div>
+
+<script>
+    var updateUser = "[[${sysLogUpdateUser!=null ? sysLogUpdateUser : '0'}]]";
+    var listurl = '/system/listSysLog';
+    if (updateUser != 0) {
+        listurl = '/system/listSysLog?updateUser=' + updateUser;
+    }
+
+    var table;
+    layui.use(['table','element'], function () {
+        table = layui.table;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //监听搜索
+        form.on('submit(LAY-user-back-search)', function(data){
+            var field = data.field;
+            console.log(field);
+            // 执行重载
+            table.reload('demo', {
+                url: '/system/listSysLog' //数据接口
+                ,where: field
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        });
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , url: listurl //数据接口
+            , page: true //开启分页
+            , limit: 80
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            ,height: 'full-105'
+            //表头
+            , cols: [ [
+                {field: 'id', title: 'ID', width: 80, sort: true, width: '5%', fixed: 'left'}
+                , {field: 'title', title: '标题', sort: true }
+                , {field: 'url', title: '请求URL地址' , sort: true }
+                , {field: 'ip', title: 'IP', width: '6%'}
+                , {field: 'roleType', title: '执行角色', templet: '#titleTplRoleType', width: '7%'}
+                , {field: 'businessType', title: '执行类型', templet: '#titleTplBusinessType', width: '7%'}
+                , {field: 'param', title: '详细参数'}
+                , {field: 'updateUser', title: '执行账户', sort: true, width: '10%'}
+                , {field: 'updateTime', title: '执行时间', sort: true, width: '10%'}
+                , {
+                    field: 'mod', title: '操作' , width: '8%',
+                    templet:
+                         '<div> ' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" onclick="mod({{d.id}})" >查看详情</intput>' +
+                        '</div>'
+                }
+            ] ]
+        });
+    });
+
+    //iframe层
+    function mod(id) {
+        if (id == null) {
+            id = 0;
+        }
+        layer.open({
+            type: 2,
+            title: '页面添加',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['70%', '80%'],
+            content: '/system/syslogMod.html?id=' + id //iframe的url
+        });
+    }
+</script>
+
+</body>
+</html>

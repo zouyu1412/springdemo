@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<span th:replace="common/common :: codemirror"/>
+
+<body th:if="${sysAuthority.hasRole('ROLE_EDITOR')}">
+<!-- 内容主体区域 -->
+<div>
+    <button class="layui-btn" title="刷新整个页面" onclick="location.reload()">刷新</button>
+    <button class="layui-btn layuiadmin-btn-admin" title="只刷新表格部分" onclick="layui.table.reload('demo')">重载表格</button>
+</div>
+<div th:if="! ${fileId}">
+    <h1>数据不存在</h1>
+    <h1>请返回检查数据</h1>
+</div>
+<div th:if="${fileId}">
+    <table id="demo" lay-filter="test"></table>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label"> 碎片内容</label>
+        <div class="layui-input-block">
+            <textarea name="content" id="content" placeholder="碎片内容" class="layui-textarea" rows="25" disabled></textarea>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var editor = CodeMirror.fromTextArea(document.getElementById("content"), {
+        lineNumbers: true,
+        mode: "application/x-ejs",
+        indentUnit: 4,
+        indentWithTabs: true,
+        readOnly: true
+    });
+    editor.setSize('100%', '350px');
+    editor.on("change",function(){
+        document.getElementById("content").value =editor.getValue();
+    });
+</script>
+<script th:inline="javascript">
+    var fileId = [[${fileId}]];
+    var table = {};
+    layui.use('table', function () {
+        table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , height: 312
+            , url: '/content/history/list/' + fileId //数据接口
+            , page: true //开启分页
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            , cols: [[ //表头
+                {field: 'id', title: '历史ID', sort: true, width: 80}
+                , {field: 'fileId', sort: true, title: '碎片ID'}
+                , {field: 'publishRemark', sort: true, title: '发布备注'}
+                , {field: 'updateUser', sort: true, title: '修改账户'}
+                , {field: 'updateTime', sort: true, title: '修改时间'}
+                , {
+                    field: 'mod', title: '操作', width: '29%',
+                    templet: '<div> <intput id = "viewlog" type="button" class="layui-table-link" value="{{d.id}}"  onclick="view(this )" >查看内容</intput>   &nbsp;&nbsp;&nbsp;&nbsp;' +
+                        '<intput id = "delelog" type="button" class="layui-table-link" remark="{{d.publishRemark}}" value="{{d.id}}" onclick="use(this )" >发布该版本</intput>' +
+                        '</div>'
+                }
+            ]]
+        });
+    });
+
+
+    function view(text) {
+        var id = $(text).attr("value");
+        $.ajax({
+            url: "/content/history/item/"+id,
+            type: "GET",
+            //参数是json字符串
+            success: function (data) {
+                if (data.code == 200) {
+                    if (data.data.detail == null) {
+                        layer.msg("内容为空")
+                    } else {
+                        editor.setValue(data.data.detail);
+                    }
+                    console.log("ok");
+                    // $("#content").html(data.data.detail);
+                } else {
+                    layer.alert(data.msg, {
+                        title: '信息：'
+                    })
+                }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                if(XMLHttpRequest!=null && XMLHttpRequest.status){
+                    layer.alert("操作失败，如果长时间未操作，请重新登陆 status："+XMLHttpRequest.status);
+                }
+                layer.alert("操作失败，如果长时间未操作，请重新登陆");
+            }
+        });
+    }
+    function use(text) {
+        var itemId = $(text).attr("value");
+        var remark = $(text).attr("remark");
+        if(!remark || remark=="null" ){remark=''}
+        layer.prompt({title: '发版备注', value: remark,formType: 2}, function(text, index){
+            layer.close(index);
+            $.ajax({
+                url: "/content/release/itemId/"+itemId,
+                type: "POST",
+                //需要设置contentType为application/json;charset=utf-8
+                // contentType: "application/json;charset=utf-8",
+                //参数是json字符串
+                data: "publishRemark=" + text,
+                success: function (data) {
+                    layer.msg(data.msg);
+                    table.reload('demo');
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    if(XMLHttpRequest!=null && XMLHttpRequest.status){
+                        layer.alert("操作失败，如果长时间未操作，请重新登陆 status："+XMLHttpRequest.status);
+                    }
+                    layer.alert("操作失败，如果长时间未操作，请重新登陆");
+                }
+            });
+            // layer.msg('您最后写下了：'+text);
+        });
+    }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/common :: head"/>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div th:replace="common/common :: header"/>
+    <div th:replace="common/common :: side"/>
+
+    <div class="layui-body">
+        <!-- =============================================================内容主体区域============================================================= -->
+
+        <div style="padding: 15px;">内容主体区域</div>
+
+        <!-- =============================================================内容主体区域============================================================= -->
+    </div>
+
+    <div th:replace="common/common :: footer"/>
+</div>
+
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<span th:replace="common/common :: codemirror"/>
+<body th:if="${! sysAuthority.hasRole('ROLE_EDITOR')}">没有权限</body>
+<body th:if="${sysAuthority.hasRole('ROLE_EDITOR')}">
+
+<form th:if="! ${contentFileVO}">
+    <h1>数据不存在或没有权限查看</h1>
+    <h1>请返回检查数据</h1>
+</form>
+<form class="layui-form" id ="myform" action="" onsubmit="return false" th:if="${contentFileVO}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">操作</label>
+        <div class="layui-input-block">
+            <label class="layui-btn" onclick="location.reload()" title="刷新页面，重新请求数据">刷新</label>
+            <input type="checkbox" id="autosave" name="autosave" title="开启30秒自动保存">
+            <label class="layui-label" title="开启30秒自动保存"></label>
+            <span id="news"></span>
+        </div>
+    </div>
+    <!--隐藏区域-->
+    <div class="layui-form-item" style="display:none;">
+        <label class="layui-form-label">碎片ID</label>
+        <div class="layui-input-block">
+            <input type="text" name="id" class="layui-input" th:value="${contentFileVO.id}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">碎片名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" required lay-verify="required" placeholder="请输入碎片名称"
+                   autocomplete="off" class="layui-input" th:value="${contentFileVO.name}">
+        </div>
+    </div>
+    <div class="layui-form-item" title="不可编辑，如需更改，找开发">
+        <label class="layui-form-label" disabled>请求地址</label>
+        <div class="layui-input-block" ty>
+            <input type="text" name="url" class="layui-input" readonly="readonly" disabled
+                   th:value="${contentFileVO.url}">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">碎片内容</label>
+        <div class="layui-input-block">
+            <textarea name="detail" id="detail" placeholder="请输入碎片内容" class="layui-textarea" rows="19" th:text="${contentFileVO.detail}"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">碎片类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="type" value="0" title="普通碎片" th:if="${contentFileVO.type == 0}" checked>
+            <input type="radio" name="type" value="0" title="普通碎片" th:if="${contentFileVO.type != 0}">
+            <input type="radio" name="type" value="1" title="专题碎片" th:if="${contentFileVO.type == 1}" checked>
+            <input type="radio" name="type" value="1" title="专题碎片" th:if="${contentFileVO.type != 1}">
+            <input type="radio" name="type" value="2" title="广告碎片" th:if="${contentFileVO.type == 2}" checked>
+            <input type="radio" name="type" value="2" title="广告碎片" th:if="${contentFileVO.type != 2}">
+            <input type="radio" name="type" value="3" title="MP碎片" th:if="${contentFileVO.type == 3}" checked>
+            <input type="radio" name="type" value="3" title="MP碎片" th:if="${contentFileVO.type != 3}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发版备注</label>
+        <div class="layui-input-block">
+            <input type="text" name="publishRemark" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" th:value="${contentFileVO.publishRemark}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
+            <button class="layui-btn" onclick="validate()" title="检验内容是否是标准的JSON格式，防止前端解析不了">检验Json</button>
+        </div>
+    </div>
+</form>
+<script src="/static/js/jquery/jquery.serializeJson-min.js"></script>
+<script th:inline="javascript">
+    var isChange = false;
+    var editor = CodeMirror.fromTextArea(document.getElementById("detail"), {
+        lineNumbers: true,
+        mode: "application/x-ejs",
+        indentUnit: 4,
+        indentWithTabs: true,
+    });
+    editor.setSize('100%', '400px');
+    editor.on("change",function(){
+        document.getElementById("detail").value =editor.getValue();
+        isChange=true;
+    });
+</script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('submit(formDemo)', function (data) {
+
+            $.ajax({
+                url: "/content/editContent",
+                type: "POST",
+                //需要设置contentType为application/json;charset=utf-8
+                contentType: "application/json;charset=utf-8",
+                //参数是json字符串
+                data: JSON.stringify(data.field),
+                success: function (data) {
+                    if (data != null) {
+                        layer.alert(data.msg);
+                    } else {
+                        layer.alert("保存失败，出现未知错误，请稍后重试");
+                    }
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    if(XMLHttpRequest!=null && XMLHttpRequest.status){
+                        layer.alert("操作失败，如果长时间未操作，请重新登陆 status："+XMLHttpRequest.status);
+                    }
+                    layer.alert("操作失败，如果长时间未操作，重新登陆");
+                }
+            });
+            // layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+
+
+    // 30秒自动保存
+    setInterval(function () {
+        var isChecked = $('#autosave').prop('checked');
+        if (isChecked) {
+            if(!isChange){
+                $('#news').html('<font color="red">自动保存成功</font>').fadeIn().delay(500).fadeOut(800);
+                console.log("内容未被修改");
+                return;
+            }
+            var data = $('#myform').serializeJson();
+            // console.log(data);
+
+            $.ajax({
+                url: "/content/editContent",
+                type: "POST",
+                //需要设置contentType为application/json;charset=utf-8
+                contentType: "application/json;charset=utf-8",
+                //参数是json字符串
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data != null) {
+                        $('#news').html('<font color="red">自动保存成功</font>').fadeIn().delay(500).fadeOut(800);
+                        isChange = false;
+                    } else {
+                        layer.alert("出现未知错误，请稍后重试");
+                    }
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    if(XMLHttpRequest!=null && XMLHttpRequest.status){
+                        layer.alert("操作失败，如果长时间未操作，请重新登陆 status："+XMLHttpRequest.status);
+                    }
+                    layer.alert("操作失败，如果长时间未操作，请重新登陆");
+                }
+            });
+        }
+    }, 30000);
+
+
+    function validate() {
+        var str = document.getElementById("detail").value;
+        console.log(str);
+        var b = isJSON(str);
+        if (b == true) {
+            layer.msg("是合法JSON,可以提交");
+        } else {
+            layer.msg("不是Json，可以检查一下数据");
+        }
+    }
+
+    function isJSON(str) {
+        if (typeof str == 'string') {
+            try {
+                var obj = JSON.parse(str);
+                if (typeof obj == 'object' && obj) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (e) {
+                console.log('error：' + str + '!!!' + e);
+                return false;
+            }
+        }
+        console.log('It is not a string!')
+    }
+</script>
+
+</body>
+
+</html>

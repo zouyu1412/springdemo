@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+    .layui-table-cell{
+        height:auto !important;
+    }
+
+</style>
+<body th:if="${sysAuthority.hasRole('ROLE_STREAM')}">
+
+<input type="hidden" th:value="${topId}" id="id"/>
+
+
+<button class="layui-btn" onclick="location.reload()">刷新</button>
+
+
+<button class="layui-btn" onclick="pub()">保存并发布</button>
+
+
+<table id="LAY_table_user" lay-filter="test"></table>
+
+<script>
+    var id = $('#id').attr("value");
+
+    var allData = {};
+
+
+    layui.use('table', function () {
+        var table = layui.table;
+        /*        var $ = layui.jquery;
+                var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块*/
+        table.render({
+            elem: '#LAY_table_user'
+            , url: '/article/listStreamArticle/' + id //数据接口
+            , limit: 20
+            , page: true //开启分页
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            //表头
+            , cols: [ [
+                { field: 'id', title: 'ID', width:50 }
+                ,{ field: 'title', title: '文章标题', edit:'text'}
+                ,{ field: 'content', title: '文章内容链接', edit:'text'}
+                ,{ field: 'weight', title: '权重', edit:'text', width: '10%'}
+                ,{ field: 'updateTime', title: '发布时间' , width: '10%'}
+                ,{ field: 'updateUser', title: '发布人' , width: '10%'}
+                ,{ field: 'status', title: '文章状态', templet:'#titleTplStatus', width: '10%'}
+            ] ]
+
+            , done: function (res, curr, count) {
+                //如果是异步请求数据方式，res即为你接口返回的信息。curr 当前页码 count
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                allData = res.data;
+                //console.log(allData);
+            }
+        });
+    });
+
+
+
+    function pub() {
+        $.ajax({
+            url: "/article/saveAndPubAll/" + id,
+            type: "POST",
+            //需要设置contentType为application/json;charset=utf-8
+            contentType: "application/json;charset=utf-8",
+            //参数是json字符串
+            data: JSON.stringify(allData),
+            success: function (data) {
+                if (data != null) {
+                    layer.msg(data.msg);
+                    //location.reload();
+                } else {
+                    alert("出现未知错误，请稍后重试");
+                }
+            }
+        });
+
+    }
+
+
+
+    function openParentActive(text) {
+        parent.parentAddTab(text);
+    }
+
+</script>
+
+
+<script type="text/html" id="operation">
+    <intput type="button" class="layui-table-link site-demo-active" data-url= "/article/edit/{{d.id}}/{{id}}" data-id="article_edit_{{d.id}}"
+            data-title="头条编辑 {{d.id}}" data-type="tabAdd" onclick="openParentActive(this)" >编辑</intput>
+</script>
+
+
+
+<script type="text/html" id="titleTplStatus">
+    {{#  if(d.status == 0){ }}
+    <button class="layui-btn layui-btn-xs">未发布</button>
+    {{#  } else if(d.status == 1) { }}
+    <button class="layui-btn layui-btn-xs">已发布</button>
+    {{#  } else if(d.status == 2) { }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">已删除</button>
+    {{#  } else { }}
+    <button class="layui-btn layui-btn-xs">未发布</button>
+    {{#  } }}
+</script>
+
+
+
+
+<script type="text/html" id="pic1">
+    {{#  if(d.image1 != null){ }}
+    <div  style="width:50px" ><img src="{{ d.image1}}"  ></div>
+    {{#  } }}
+</script>
+
+<script type="text/html" id="pic2">
+    {{#  if(d.image2 != null){ }}
+    <div  style="width:50px" ><img src="{{ d.image2}}"  ></div>
+    {{#  } }}
+</script>
+
+<script type="text/html" id="pic3">
+    {{#  if(d.image3 != null){ }}
+    <div  style="width:50px" ><img src="{{ d.image3}}"  ></div>
+    {{#  } }}
+</script>
+
+</body>
+
+</html>

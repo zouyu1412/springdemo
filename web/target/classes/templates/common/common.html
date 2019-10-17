@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:if="${ pageDescription == null }">搜狐汽车_内容管理后台</title>
+    <title th:if="${ pageDescription != null }" th:text="${'搜狐汽车_内容管理后台_'+ pageDescription}">搜狐汽车_内容管理后台</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <script src="/static/layui/layui.js"></script>
+    <script src="/static/js/admin.js"></script>
+    <script src="/static/js/jquery/jquery-3.3.1.min.js"></script>
+    <!-- 自定义的css 让页面更紧凑 -->
+    <style>
+        .layui-card-body {
+            padding: 0px 2px;
+        }
+        .layui-body {
+            overflow-y: hidden;
+        }
+        .layui-form-item {
+            margin-bottom: 0px;
+        }
+        .layui-tab {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<span th:fragment="codemirror">
+    <!--下面两个是使用Code Mirror必须引入的-->
+    <link rel="stylesheet" href="/static/codemirror/codemirror.css" />
+    <script src="/static/codemirror/codemirror.js"></script>
+    <script src="/static/codemirror/css.js"></script>
+    <script src="/static/codemirror/xml.js"></script>
+    <script src="/static/codemirror/javascript.js"></script>
+    <script src="/static/codemirror/htmlmixed.js"></script>
+    <script src="/static/codemirror/htmlembedded.js"></script>
+    <script src="/static/codemirror/multiplex.js"></script>
+</span>
+
+<div class="layui-header" th:fragment="header" >
+    <div class="layui-logo">内容管理后台</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img" th:if="${ loginUser.userImg == null }">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img" th:if="${ loginUser.userImg != null }" th:src="${ loginUser.userImg }">
+                <span th:text="${ loginUser.userName }"></span>
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a href="">基本资料</a></dd>
+                <dd><a href="">安全设置</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="/system/logout">退了</a></li>
+    </ul>
+</div>
+
+<!--左侧导航栏-->
+<div class="layui-side layui-bg-black" th:fragment="side">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item kit-side-fold" title="菜单缩放">
+                <a class="" href="javascript:;">
+                    <i class="fa fa-navicon" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item" title="首页" th:classappend="${pageName}=='index' ? 'layui-nav-itemed' : ''">
+                <a data-url="/welcome.html" data-id="welcome" data-title="欢迎" href="#" class="site-demo-active"
+                   data-type="tabAdd">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    <span>首页</span>
+                </a>
+            </li>
+            <li class="layui-nav-item" title="wap汽首" th:if="${sysAuthority.hasRole('ROLE_STREAM')}">
+                <a class="" href="javascript:;">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    <span>wap汽首</span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd class="layui-this" title="焦点">
+                        <a data-url="/article/focus.html" data-id="articleFocus" data-title="焦点" href="#" class="site-demo-active"
+                            data-type="tabAdd">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            <span>焦点</span>
+                        </a>
+                    </dd>
+                    <dd title="头条">
+                        <a data-url="/article/top.html" data-id="articleTop" data-title="头条" href="#" class="site-demo-active"
+                            data-type="tabAdd">
+                            <i class="fa fa-bullhorn" aria-hidden="true"></i>
+                            <span>头条</span>
+                        </a>
+                    </dd>
+                    <dd title="MP">
+                        <a data-url="/article/mp.html" data-id="articleMP" data-title="MP" href="#" class="site-demo-active"
+                            data-type="tabAdd">
+                            <i class="fa fa-rss" aria-hidden="true"></i>
+                            <span>MP</span>
+                        </a>
+                    </dd>
+                    <dd title="分享专区">
+                        <a data-url="/article/share.html" data-id="articleShare" data-title="分享专区" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-share-alt-square" aria-hidden="true"></i>
+                            <span>分享专区</span>
+                        </a>
+                    </dd>
+
+
+                    <dd title="图片推荐">
+                        <a data-url="/article/picRec.html" data-id="articlePicRec" data-title="图片推荐" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+                            <span>图片推荐</span>
+                        </a>
+                    </dd>
+
+
+                    <dd title="品牌管理">
+                        <a data-url="/article/brand.html" data-id="articleBrand" data-title="品牌管理" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                            <span>品牌管理</span>
+                        </a>
+                    </dd>
+                    <dd title="自媒体">
+                        <a data-url="/article/media.html" data-id="articleMedia" data-title="自媒体" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-tv" aria-hidden="true"></i>
+                            <span>自媒体</span>
+                        </a>
+                    </dd>
+
+                </dl>
+            </li>
+            <li class="layui-nav-item " title="碎片管理" th:if="${sysAuthority.hasRole('ROLE_EDITOR')}">
+                <a href="javascript:;">
+                    <i class="fa fa-cubes" aria-hidden="true"></i>
+                    <span>碎片管理</span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/content/page.html" data-id="content_page" data-title="页面管理" href="#" class="site-demo-active" data-type="tabAdd">
+                            <i class="fa fa-file-powerpoint-o" aria-hidden="true"></i>
+                            <span>页面管理</span>
+                        </a>
+                    </dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/content/template.html" data-id="content_template_page" data-title="专题管理" href="#" class="site-demo-active" data-type="tabAdd">
+                            <i class="fa fa-file-code-o" aria-hidden="true"></i>
+                            <span>专题管理</span>
+                        </a>
+                    </dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/content/file.html" data-id="content_file" data-title="碎片管理" href="#" class="site-demo-active" data-type="tabAdd">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            <span>碎片管理</span>
+                        </a>
+                    </dd>
+                </dl>
+            </li>
+
+            <!--投票管理-->
+            <li class="layui-nav-item" title="投票管理" th:if="${sysAuthority.hasRole('ROLE_VOTE')}">
+                <a class="" href="javascript:;">
+                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                    <span>投票管理</span>
+                </a>
+
+                <dl class="layui-nav-child">
+                    <dd class="layui-this" title="投票活动">
+                        <a data-url="/vote/group.html" data-id="voteTheme" data-title="投票活动" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-vcard-o" aria-hidden="true"></i>
+                            <span>投票活动</span>
+                        </a>
+                    </dd>
+                </dl>
+            </li>
+
+            <li class="layui-nav-item " title="投诉平台" th:if="${sysAuthority.hasRole('ROLE_PECKER')}">
+                <a href="javascript:;">
+                    <i class="fa fa-gavel" aria-hidden="true"></i>
+                    <span>投诉平台</span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/pecker/sohuReport.html" data-id="pecker_souhu_report" data-title="搜狐报道" href="#" class="site-demo-active" data-type="tabAdd">
+                            <i class="fa fa-reply-all" aria-hidden="true"></i>
+                            <span>搜狐报道</span>
+                        </a>
+                    </dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/pecker/peckerCase.html" data-id="pecker_case" data-title="投诉管理" href="#" class="site-demo-active" data-type="tabAdd">
+                            <i class="fa fa-fire" aria-hidden="true"></i>
+                            <span>投诉管理</span>
+                        </a>
+                    </dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/pecker/peckerSpider.html" data-id="pecker_spider" data-title="友商投诉" href="#" class="site-demo-active" data-type="tabAdd">
+                            <i class="fa fa-child" aria-hidden="true"></i>
+                            <span>友商投诉</span>
+                        </a>
+                    </dd>
+                </dl>
+            </li>
+
+            <!--文件上传-->
+            <li class="layui-nav-item " title="文件上传"  th:classappend="${pageName}=='picupload' ? 'layui-nav-itemed layui-this' : ''">
+                <a href="javascript:;">
+                    <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                    <span>文件上传</span>
+                </a>
+
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/upload/index.html" data-id="picuploadIndex" data-title="图片上传" class="site-demo-active"
+                           data-type="tabAdd" th:href="'#'">
+                            <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i>
+                            <span>图片上传</span>
+                        </a>
+                    </dd>
+                </dl>
+
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/upload/batchUpload.html" data-id="picuploadbatchUploadIndex" data-title="批量上传" class="site-demo-active" data-type="tabAdd" th:href="'#'">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            <span>批量上传</span>
+                        </a>
+                    </dd>
+                </dl>
+
+                <dl class="layui-nav-child" title="将cdn上的html文件，里面的相对样式图片路径变成绝对路径">
+                    <dd>
+                        <a data-url="/upload/htmlConvert.html" data-id="picupload_htmlConvert" data-title="页面处理"  title="将cdn上的html文件，里面的相对样式图片路径变成绝对路径" class="site-demo-active" data-type="tabAdd" th:href="'#'">
+                            <i class="fa fa-html5" aria-hidden="true"></i>
+                            <span>页面处理</span>
+                        </a>
+                    </dd>
+                </dl>
+
+            </li>
+
+            <!--系统管理-->
+            <li class="layui-nav-item " title="系统管理" th:classappend="${pageName}=='system' ? 'layui-nav-itemed' : ''" th:if="${sysAuthority.hasRole('ROLE_ADMIN')}">
+                <a href="javascript:;"><i class="fa fa-gear fa-.layui-layout-admin .layui-logolg"></i> <span>系统管理</span></a>
+                <dl class="layui-nav-child">
+                    <dd title="用户管理">
+                        <a data-url="/system/user.html" data-id="systemUser" data-title="用户管理" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-user-o" aria-hidden="true"></i>
+                            <span>用户管理</span>
+                        </a>
+                    </dd>
+                    <dd title="角色管理">
+                        <a data-url="/system/role.html" data-id="systemRole" data-title="角色管理" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                            <span>角色管理</span>
+                        </a>
+                    </dd>
+                    <dd title="页面管理">
+                        <a data-url="/system/page.html" data-id="system_page" data-title="页面管理" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-file-powerpoint-o" aria-hidden="true"></i>
+                            <span>页面管理</span>
+                        </a>
+                    </dd>
+                    <dd title="碎片管理">
+                        <a data-url="/system/file.html" data-id="system_File" data-title="碎片管理" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            <span>碎片管理</span>
+                        </a>
+                    </dd>
+                    <dd title="日志管理">
+                        <a data-url="/system/syslog.html" data-id="system_Syslog" data-title="日志管理" href="#" class="site-demo-active"
+                           data-type="tabAdd">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <span>日志管理</span>
+                        </a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--左侧-->
+<div class="layui-side layui-bg-black" th:fragment="side2">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item" th:classappend="${pageName}=='index' ? 'layui-nav-itemed' : ''">
+                <a class="" href="javascript:;">文章</a>
+                <dl class="layui-nav-child">
+                    <dd class="layui-this">
+                        <a data-url="/article/focus.html" data-id="articleFocus" data-title="焦点" href="#" class="site-demo-active"
+                            data-type="tabAdd">焦点</a>
+                    </dd>
+                    <dd>
+                        <a data-url="/article/top.html" data-id="articleTop" data-title="头条" href="#" class="site-demo-active"
+                            data-type="tabAdd">头条</a>
+                    </dd>
+                    <dd>
+                        <a data-url="/article/mp.html" data-id="articleMP" data-title="MP" href="#" class="site-demo-active"
+                            data-type="tabAdd">MP</a>
+                    </dd>
+                    <dd><a href="">超链接</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item ">
+                <a href="javascript:;">碎片管理</a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/content/index" data-id="content_index" data-title="碎片管理" href="#" class="site-demo-active" data-type="tabAdd">碎片管理</a>
+                    </dd>
+                    <dd>
+                        <a data-url="/content/history" data-id="content_history" data-title="碎片历史" href="#" class="site-demo-active" data-type="tabAdd">碎片历史</a>
+                    </dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">云市场</a></li>
+
+            <!--图片上传-->
+            <li class="layui-nav-item" th:classappend="${pageName}=='picupload' ? 'layui-nav-itemed layui-this' : ''">
+                <a data-url="/picupload/index.html" data-id="picuploadIndex" data-title="图片上传" class="site-demo-active"
+                    data-type="tabAdd" th:href="'#'">文件上传</a>
+            </li>
+
+            <!--系统管理-->
+            <li class="layui-nav-item " th:classappend="${pageName}=='system' ? 'layui-nav-itemed' : ''">
+                <a href="javascript:;">系统管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" th:href="${pageName}=='system' ? 'javascript:;' : '/system/'">用户管理</a>
+                    </dd>
+                    <dd><a href="javascript:;" th:href="${pageName}=='system' ? 'javascript:;' : '/system/'">角色管理</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="layui-footer" th:fragment="footer">
+    <!-- 底部固定区域 -->
+    <a href="//auto.sohu.com" th:text="${'© auto.sohu.com - 搜狐汽车 '+ pageThisYear}"> © auto.sohu.com - 搜狐汽车 2019</a>
+</div>

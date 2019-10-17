@@ -85,7 +85,7 @@ public class CacheFilter extends OncePerRequestFilter {
                 CACHE_KEY_STATUS.put(key, content);
 
                 long responsetime = System.currentTimeMillis() - starttime;
-                logger.info("cached filter response with url[{}] time cost[{}]ms,", reqUrl + queryString, responsetime);
+                logger.info("cached filter response with url[{}] time cost[{}]ms,", reqUrl +"?"+ queryString, responsetime);
             } else {
                 filterChain.doFilter(httpServletRequest, httpServletResponse);
             }

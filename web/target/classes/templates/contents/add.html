@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+</style>
+<body th:if="${! sysAuthority.hasRole('ROLE_EDITOR')}">没有权限</body>
+<body th:if="${sysAuthority.hasRole('ROLE_EDITOR')}">
+<form class="layui-form" action="" onsubmit="return false">
+    <div class="layui-form-item">
+        <label class="layui-form-label">碎片名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" required  lay-verify="required" placeholder="请输入碎片名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="url" required  lay-verify="required" placeholder="请输入请求地址URL" autocomplete="off" class="layui-input" value="http://content.auto.sohuno.com">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">碎片内容</label>
+        <div class="layui-input-block">
+            <textarea name="detail" placeholder="请输入碎片内容" class="layui-textarea" rows="15"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">碎片类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="type" value="0" title="普通碎片" checked>
+            <input type="radio" name="type" value="1" title="专题碎片" >
+            <input type="radio" name="type" value="2" title="广告碎片" >
+            <input type="radio" name="type" value="3" title="MP文章碎片" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <input type="text" name="remark" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">新增</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('submit(formDemo)', function (data) {
+
+            $.ajax({
+                url: "/content/addContent",
+                type: "POST",
+                //需要设置contentType为application/json;charset=utf-8
+                contentType: "application/json;charset=utf-8",
+                //参数是json字符串
+                data: JSON.stringify(data.field),
+                success: function (data) {
+                    if (data != null) {
+                        layer.alert(data.msg);
+                    } else {
+                        layer.alert("出现未知错误，请稍后重试");
+                    }
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    if(XMLHttpRequest!=null && XMLHttpRequest.status){
+                        layer.alert("操作失败，如果长时间未操作，请重新登陆 status："+XMLHttpRequest.status);
+                    }
+                    layer.alert("操作失败，如果长时间未操作，请重新登陆");
+                }
+            });
+            // layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+</body>
+
+</html>

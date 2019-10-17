@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+    .layui-form-item {
+        margin-bottom: 0px;
+    }
+</style>
+<body th:if="${! sysAuthority.hasRole('ROLE_PECKER')}">没有权限</body>
+<body th:if="${sysAuthority.hasRole('ROLE_PECKER')}">
+<div class="layui-form ">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">投诉标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" placeholder="请输入，支持模糊搜索" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <select name="sort" lay-search>
+                    <option value="">请选择</option>
+                    <option value="pubTime_desc">发布时间倒序</option>
+                    <option value="pubTime_asc">发布时间正序</option>
+                    <option value="id_desc">ID主键倒序</option>
+                    <option value="id_asc">ID主键正序</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+            <button class="layui-btn layuiadmin-btn-admin" title="只刷新表格部分" onclick="layui.table.reload('demo')">重载表格</button>
+            <button class="layui-btn" title="刷新整个页面" onclick="location.reload()">刷新</button>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">抓取数量</label>
+            <div class="layui-input-block">
+                <input type="text" name="spiderNum" id="spiderNum" placeholder="抓取数量，最多1000" autocomplete="off" class="layui-input" value="200">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn" title="抓取黑猫最新投诉" onclick="spider(0)">抓取黑猫最新投诉</button>
+            <button class="layui-btn" title="抓取车质网最新投诉" onclick="spider(1)">抓取车质网最新投诉</button>
+        </div>
+    </div>
+</div>
+
+<div class="layui-card-body">
+    <table id="demo" lay-filter="test"></table>
+    <script type="text/html" id="titleTplStatus">
+        {{#  if(d.status == 0){ }}
+        <button class="layui-btn layui-btn-xs">正常</button>
+        {{#  } else if(d.status == 1) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+        {{#  } else if(d.status == 2) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-normal">已转换</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs">正常</button>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="titleTplChannelId">
+        {{#  if(d.channelId == 1){ }}
+        <span>汽车</span>
+        {{#  } else if(d.channelId == 2) { }}
+        <span>房产</span>
+        {{#  } else if(d.channelId == 3) { }}
+        <span>美妆个护</span>
+        {{#  } else if(d.channelId == 4) { }}
+        <span>教育</span>
+        {{#  } else if(d.channelId == 5) { }}
+        <span>电商平台</span>
+        {{#  } else if(d.channelId == 6) { }}
+        <span>其他</span>
+        {{#  } else { }}
+        <span>未知</span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="titleTplType">
+        {{#  if(d.type == 0){ }}
+        <button class="layui-btn layui-btn-xs layui-btn-normal">黑猫</button>
+        {{#  } else if(d.type == 1) { }}
+        <button class="layui-btn layui-btn-xs">车质网</button>
+        {{#  } else { }}
+        <span>未知</span>
+        {{#  } }}
+    </script>
+</div>
+
+<script>
+
+    var table ;
+    layui.use(['table','element'], function () {
+        table = layui.table;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //监听搜索
+        form.on('submit(LAY-user-back-search)', function(data){
+            var field = data.field;
+            console.log(field);
+            // 执行重载
+            table.reload('demo', {
+                where: field
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        });
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , url: '/pecker/listPeckerSpider' //数据接口
+            , page: true //开启分页
+            , limit: 200
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            ,height: 'full-65'
+            //表头
+            , cols: [[
+                {field: 'id', title: 'ID',  sort: true, width: '4%', fixed: 'left'}
+                , {field: 'title', title: '标题', width: '20%'}
+                , {field: 'channelId', title: '频道', width: '6%', templet: '#titleTplChannelId', sort: true}
+                , {field: 'type', title: '来源', width: '5%', templet: '#titleTplType'}
+                , {field: 'companyIdOne', title: 'ID1', width: '4%'}
+                , {field: 'companyNameOne', title: '对象1'}
+                , {field: 'companyIdTwo', title: 'ID2', width: '4%'}
+                , {field: 'companyNameTwo', title: '对象2', width: '6%'}
+                , {field: 'companyNameThree', title: '对象3', width: '6%'}
+                , {field: 'content', title: '内容', width: '6%'}
+                , {field: 'status', title: '状态', width: '5%',  templet: '#titleTplStatus'}
+                , {field: 'pubTime', title: '发布时间', sort: true}
+                , {field: 'createTime', title: '创建时间', sort: true}
+                , {
+                    field: 'mod', title: '操作', width: 120,
+                    templet:
+                        '<div> ' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" data-url= "/pecker/peckerSpiderMod.html?id={{d.id}}" data-id="pecker_peckerSpiderMod_{{d.id}}" data-title="友商内容 {{d.id}}" href="#" data-type="tabAdd" onclick="openParentActive(this)" >编辑</intput>' +
+                        '<a  class="layui-btn layui-btn-xs"  href="{{d.url}}" target="_blank">来源</a>' +
+                        '</div>'
+                }
+            ] ]
+        });
+    });
+
+    function openParentActive(text) {
+        parent.parentAddTab(text);
+    }
+
+    function spider(type) {
+        if (type != 0 && type != 1) {
+            return false;
+        }
+        var spiderNum = $("#spiderNum").val();
+        if (!spiderNum || spiderNum <= 0) {
+            return false;
+        }
+        var title = "";
+        if (type == 0) {
+            title = "你确定抓取" + spiderNum + "条黑猫投诉吗？<br>大约耗时1分钟";
+        }
+        if (type == 1) {
+            title = "你确定抓取" + spiderNum + "条车质网投诉吗？<br>大约耗时1分钟";
+        }
+        layer.confirm(title, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "/pecker/submitPeckerSpiderTask?type=" + type + "&spiderNum=" + spiderNum,
+                success: function (data) {
+                    layer.msg(data.msg);
+                }
+            });
+        }, function () {
+        });
+    }
+</script>
+
+
+</body>
+
+</html>

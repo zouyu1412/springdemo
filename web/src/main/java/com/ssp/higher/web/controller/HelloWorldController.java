@@ -1,7 +1,10 @@
 package com.ssp.higher.web.controller;
 
+import com.ssp.higher.base.pojos.Result;
+import com.ssp.higher.business.myservice.FeignService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,16 +24,18 @@ public class HelloWorldController {
     @Value("${api.appKey}")
     private String name;
 
+    @Autowired
+    private FeignService feignService;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping("test")
     public String tset(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         logger.info("haha");
-//        try {
-//            httpServletResponse.getWriter().write("hahinn");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+
+        Result test = feignService.test(11, 1001);
+        System.out.println(true);
+
         return "hello world";
     }
 

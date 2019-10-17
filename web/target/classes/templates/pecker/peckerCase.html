@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+
+<body th:if="${! sysAuthority.hasRole('ROLE_PECKER')}">没有权限</body>
+<body th:if="${sysAuthority.hasRole('ROLE_PECKER')}">
+<div class="layui-form ">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">投诉标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" placeholder="请输入，支持模糊搜索" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">频道分类</label>
+            <div class="layui-input-block">
+                <select name="channelId" lay-search >
+                    <option value=""  >请选择</option>
+                    <span th:each="channel:${peckerChannels}">
+                         <option th:if="${channel != null}" th:value="${channel.id}" th:text="${channel.channelName  } "></option>
+                    </span>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">审核状态</label>
+            <div class="layui-input-block">
+                <select name="verify" lay-search >
+                    <option value=""  >请选择</option>
+                    <option value="0"  >正在审核</option>
+                    <option value="1"  >审核失败</option>
+                    <option value="2"  >审核通过</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <select name="sort" lay-search>
+                    <option value="">请选择</option>
+                    <option value="weight_desc">权重倒序-》更新时间倒序</option>
+                    <option value="updateTime_desc">更新时间倒序-》权重倒序</option>
+                    <option value="id_desc">ID主键倒序</option>
+                    <option value="id_asc">ID主键正序</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+            <button class="layui-btn layuiadmin-btn-admin" title="只刷新表格部分" onclick="layui.table.reload('demo')">重载表格</button>
+            <button class="layui-btn" title="刷新整个页面" onclick="location.reload()">刷新</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="layui-card-body">
+    <table id="demo" lay-filter="test"></table>
+    <script type="text/html" id="titleTplVerify">
+        {{#  if(d.verify == 0){ }}
+        <button class="layui-btn layui-btn-xs layui-btn-normal">正在审核</button>
+        {{#  } else if(d.verify == 1) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-danger">审核失败</button>
+        {{#  } else if(d.verify == 2) { }}
+        <button class="layui-btn layui-btn-xs">审核通过</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs layui-btn-norma">正在核实</button>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="titleTplStatus">
+        {{#  if(d.status == 0){ }}
+        <button class="layui-btn layui-btn-xs">已发布</button>
+        {{#  } else if(d.status == 1) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs">已发布</button>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="titleTplChannelId">
+        {{#  if(d.channelId == 1){ }}
+        <span>汽车</span>
+        {{#  } else if(d.channelId == 2) { }}
+        <span>房产</span>
+        {{#  } else if(d.channelId == 3) { }}
+        <span>美妆个护</span>
+        {{#  } else if(d.channelId == 4) { }}
+        <span>教育</span>
+        {{#  } else if(d.channelId == 5) { }}
+        <span>电商平台</span>
+        {{#  } else if(d.channelId == 6) { }}
+        <span>其他</span>
+        {{#  } else { }}
+        <span>未知</span>
+        {{#  } }}
+    </script>
+</div>
+
+<script>
+    var pageId = [[${pageId!=null ? pageId : '0'}]];
+    var table ;
+    layui.use(['table','element'], function () {
+        table = layui.table;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //监听搜索
+        form.on('submit(LAY-user-back-search)', function(data){
+            var field = data.field;
+            console.log(field);
+            // 执行重载
+            table.reload('demo', {
+                where: field
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        });
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , url: '/pecker/listPeckerCase' //数据接口
+            , page: true //开启分页
+            , limit: 30
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            ,height: 'full-65'
+            //表头
+            , cols: [[
+                {field: 'id', title: 'ID', width: 80, sort: true, width: '4%', templet: '<div><span data-url= "http://zhuomuniao.sohu.com/questionDetail.html?caseId={{d.id}}&debug=true" data-debug= "true" onclick="view(this)" >{{d.id}}</span></div>'}
+                , {field: 'passportId', title: 'passportID', sort: true, width: '7%'}
+                , {field: 'title', title: '标题', width: '10%'}
+                , {field: 'channelId', title: '频道', width: '6%', templet: '#titleTplChannelId'}
+                , {field: 'companyIdOne', title: '投诉对象1', width: '4%'}
+                , {field: 'companyNameOne', title: '投诉对象2', width: '6%'}
+                , {field: 'companyIdTwo', title: '投诉对象2', width: '4%'}
+                , {field: 'companyNameTwo', title: '投诉对象2', width: '6%'}
+                , {field: 'companyIdThree', title: '投诉对象3', width: '4%'}
+                , {field: 'companyNameThree', title: '投诉对象3', width: '6%'}
+                , {field: 'supportNum', title: '支持数量', sort: true}
+                , {field: 'weight', title: '权重', sort: true}
+                , {field: 'verify', title: '审核', sort: true, templet: '#titleTplVerify'}
+                , {field: 'status', title: '状态', templet: '#titleTplStatus'}
+                , {field: 'updateUser', title: '更新人', sort: true}
+                , {field: 'updateTime', title: '更新时间', sort: true}
+                , {
+                    field: 'mod', title: '操作', width: '17%',
+                    templet:
+                        '<div> ' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" data-url= "/pecker/peckerCaseMod.html?caseId={{d.id}}" data-id="pecker_peckerCaseMod_{{d.id}}" data-title="投诉内容 {{d.id}}" href="#" data-type="tabAdd" onclick="openParentActive(this)" >查看</intput>' +
+                        '<intput type="button" class="layui-btn layui-btn-xs" href="#" value="{{d.id}}" onclick="verify(this,2)" >通过</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-danger layui-btn-xs" href="#" value="{{d.id}}" onclick="verify(this,1)" >失败</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" onclick="changeStatus(this,1)" >删除</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" onclick="changeStatus(this,0)" >恢复</intput> &nbsp;' +
+                        '</div>'
+                }
+            ] ]
+        });
+    });
+    function verify(text, verify) {
+        if (verify != 1 && verify != 2) {
+            return false;
+        }
+        var title = "";
+        if (status == 0) {
+            title = "你确定要审核通过该投诉吗？";
+        }
+        if (status == 1) {
+            title = "你确定要将该投诉驳回吗？";
+        }
+        var caseId = $(text).attr("value");
+        layer.confirm(title, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "/pecker/peckerCase/change/" + caseId + "?verify=" + verify,
+                success: function (data) {
+                    layer.msg(data.msg);
+                    // 执行重载
+                    table.reload('demo');
+                }
+            });
+        }, function () {
+        });
+    }
+
+    function changeStatus(text, status) {
+        if (status != 0 && status != 1) {
+            return false;
+        }
+        var title = "";
+        if (status == 0) {
+            title = "你确定要恢复该投诉吗？";
+        }
+        if (status == 1) {
+            title = "你确定要删除该投诉吗？";
+        }
+        var caseId = $(text).attr("value");
+        layer.confirm(title, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url:  "/pecker/peckerCase/change/" + caseId + "?status=" + status,
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                    // 执行重载
+                    table.reload('demo');
+                }
+            });
+        }, function () {
+        });
+    }
+
+    function openParentActive(text) {
+        parent.parentAddTab(text);
+    }
+    function view(text) {
+        var url = $(text).attr("data-url");
+        if (url != null) {
+            url = url.replace(/#.*/g, "")
+        } else {
+            url = "";
+        }
+
+        window.open(url, '_blank').location;
+    }
+</script>
+
+
+
+</body>
+
+</html>

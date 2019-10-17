@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+</style>
+<body th:if="${! sysAuthority.hasRole('ROLE_PECKER')}">没有权限</body>
+<body class="layui-fluid"  style="margin-top: 5px;" th:if="${sysAuthority.hasRole('ROLE_PECKER')}">
+
+<form class="layui-form" action="" onsubmit="return false">
+
+    <div classs="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">保存并发布</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-primary" onclick="getmpinfo()" >根据新闻URL自动填充数据</button>
+        </div>
+    </div>
+
+    <div class="layui-form-item" th:if="${ peckerRelatedCaseId != null and peckerRelatedCaseId > 0 }">
+        <label class="layui-form-label">相关案例ID</label>
+        <div class="layui-input-block">
+            <input type="text" name="id"  readonly="readonly" disabled placeholder="请相似案例ID" autocomplete="off" class="layui-input" th:value="${ peckerRelatedCaseId}"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">案例ID</label>
+        <div class="layui-input-block">
+            <input type="text" name="caseId"  readonly="readonly" disabled placeholder="请输入案例ID" autocomplete="off" class="layui-input" th:value="${ peckerRelatedCaseIdCaseId}"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">相似案例标题</label>
+        <div class="layui-input-block">
+            <input type="text" id="title" name="title" required  lay-verify="required" placeholder="请输入相似案例标题" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase != null}" th:value="${ peckerRelatedCase.title}"/>
+            <input type="text" id="title" name="title" required  lay-verify="required" placeholder="请输入相似案例标题" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase == null}"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">相似案例URL</label>
+        <div class="layui-input-block">
+            <input type="text" id="url" name="url" required  lay-verify="required" placeholder="请输入相似案例URL" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase != null}" th:value="${ peckerRelatedCase.url}"/>
+            <input type="text" id="url" name="url" required  lay-verify="required" placeholder="请输入相似案例URL" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase == null}"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">相似案例热度</label>
+        <div class="layui-input-block">
+            <input type="text" name="heat" required  lay-verify="required" placeholder="请输入相似案例热度(0-100),默认为0" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase != null}" th:value="${ peckerRelatedCase.heat}"/>
+            <input type="text" name="heat" required  lay-verify="required" placeholder="请输入相似案例热度(0-100),默认为0" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase == null}" th:value="0"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">相似案例相关度</label>
+        <div class="layui-input-block">
+            <input type="text" name="relevancy" required  lay-verify="required" placeholder="请输入相似案例相关度(0-100),默认为0" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase != null}" th:value="${ peckerRelatedCase.relevancy}"/>
+            <input type="text" name="relevancy" required  lay-verify="required" placeholder="请输入相似案例相关度(0-100),默认为0" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase == null}" th:value="0"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">相似案例权重</label>
+        <div class="layui-input-block">
+            <input type="text" name="weight" required  lay-verify="required" placeholder="请输入相似案例权重(0-100),只有置顶才设置" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase != null}" th:value="${ peckerRelatedCase.weight}"/>
+            <input type="text" name="weight" required  lay-verify="required" placeholder="请输入相似案例权重(0-100),只有置顶才设置" autocomplete="off" class="layui-input" th:if="${ peckerRelatedCase == null}" th:value="0"/>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('submit(formDemo)', function(data){
+            //执行 Ajax 后重载
+            $.ajax({
+                url: "/pecker/peckerRelatedCaseMod",
+                type: "POST",
+                contentType:"application/json;charset=utf-8",
+                data: JSON.stringify(data.field),
+                //参数是json字符串
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                }
+            });
+            parent.layui.table.reload('peckerRelatedCase');
+            return false;
+        });
+    });
+
+
+    function getmpinfo() {
+        var mpUrl = $("#url").val();
+        if(mpUrl!=null){
+            $.ajax({
+                url: "/pecker/sohuReport/getmpinfo",
+                type: "POST",
+                data: "mpUrl="+mpUrl,
+                //参数是json字符串
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        var mpdata = data.data;
+                        $("#title").val(mpdata.title);
+                        $("#cover").val(mpdata.cover);
+                        $("#authorName").val(mpdata.authorName);
+                        $("#pubTimeLong").val(mpdata.publicTime);
+                    } else {
+                        layer.alert("URL为空或者不是合法的mp链接", {
+                            title: '信息：'
+                        })
+                    }
+                }
+            });
+
+        }
+
+    }
+
+
+
+</script>
+
+</body>
+</html>

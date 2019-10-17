@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+
+<body  >
+
+<div class="layui-collapse">
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">1. 相对路径转绝对路径</h2>
+        <div class="layui-colla-content layui-show">
+            <form class="layui-form" action="" onsubmit="return false">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button class="layui-btn layui-btn-primary" onclick="view()">预览</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <button class="layui-btn" title="刷新整个页面" onclick="location.reload()">刷新</button>
+                        <a class="layui-btn" href="http://cdn.no.sohu.com/cleancache/index.php"
+                           target="_blank">CDN缓存清除</a>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">请求URL</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="url" id="url" required lay-verify="required" placeholder="请输入CDN的页面URL"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">绝对路径(复制)</label>
+                    <div class="layui-input-block">
+                        <textarea name="absolute" id="absolute" placeholder="该处是绝对路径的html内容" class="layui-textarea"
+                                  rows="15"></textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">相对路径(原来)</label>
+                    <div class="layui-input-block">
+                        <textarea name="relative" id="relative" placeholder="该处是相对路径的html内容" class="layui-textarea"
+                                  rows="5"></textarea>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">2. 图片自定义切图 && 去除http和https</h2>
+        <div class="layui-colla-content layui-show">
+            <form class="layui-form" action="" onsubmit="return false">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="cutImg">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <button class="layui-btn" title="刷新整个页面" onclick="location.reload()">刷新</button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">宽(像素)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="width" placeholder="图片宽度，不填代表不切图" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">高(像素)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="height" placeholder="图片高度，不填代表不切图" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">开始内容</label>
+                    <div class="layui-input-block">
+                        <textarea name="content" id="content" placeholder="处理前的html内容或者图片URL" class="layui-textarea" rows="10"></textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">处理结果</label>
+                    <div class="layui-input-block">
+                        <textarea name="result" id="result" placeholder="处理后的html内容或者图片URL" class="layui-textarea" rows="10"></textarea>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    </div>
+</div>
+
+<script>
+    layui.use(['element', 'layer', 'form'], function () {
+        var element = layui.element;
+        var layer = layui.layer;
+        var form = layui.form;
+        form.on('submit(formDemo)', function (data) {
+            $.ajax({
+                url: "/upload/htmlConvert",
+                type: "POST",
+                data: 'url=' + data.field.url,
+                //参数是json字符串
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+
+                        layer.msg(data.msg);
+                        document.getElementById("relative").value = data.data.relative;
+                        document.getElementById("absolute").value = data.data.absolute;
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                }
+            });
+            return false;
+        });
+
+        form.on('submit(cutImg)', function (data) {
+            console.log(data);
+            $.ajax({
+                url: "/upload/htmlResourceConvert",
+                type: "POST",
+                data: data.field,
+                //参数是json字符串
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                        document.getElementById("result").value = data.data;
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                }
+            });
+            return false;
+
+        });
+    });
+
+    // 预览
+    function view() {
+        var html = document.getElementById("url").value;
+        if (!html) {
+            return false;
+        }
+        var url = "/upload/htmlConvertView?url=" + html;
+        window.open(url, '_blank').location;
+    }
+</script>
+
+</body>
+</html>

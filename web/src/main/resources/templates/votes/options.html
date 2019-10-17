@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+
+    .layui-table-cell{
+        height:auto !important;
+    }
+</style>
+<body th:if="${sysAuthority.hasRole('ROLE_VOTE')}">
+
+
+<intput type="button" class="layui-btn" onclick="create()" >新建投票选项</intput>
+
+<intput type="button" class="layui-btn" onclick="pub()" >保存</intput>
+
+<table id="table" lay-filter="test"></table>
+
+<script src="/static/layui/layui.all.js"></script>
+<script>
+
+    var voteId = [[${voteId}]];
+    var allData = {};
+
+    //layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#table'
+            , url: '/vote/listOption/' + voteId //数据接口
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            //表头
+            , cols: [ [
+                { field: 'optionId', title: 'Id', width: 70, edit:'text'}
+                ,{ field: 'name', title: '选项名称' ,edit:'text'}
+                ,{ field: 'pic', title: '选项配图' ,edit:'text'}
+                ,{ field: 'desc', title: '选项介绍' ,edit:'text'}
+                ,{ field: 'rUp', title: '实际赞' }
+                ,{ field: 'gUp', title: '刷票赞' ,edit:'text'}
+                ,{ field: 'genNum', title: '刷赞(半小时)' ,edit:'text'}
+                ,{ field: 'rDown', title: '实际踩' }
+                ,{ field: 'gDown', title: '刷票踩' ,edit:'text'}
+                ,{ field: 'genDownNum', title: '刷踩(半小时)' ,edit:'text'}
+                ,{ field: 'mod', title: '操作', templet: '#operation'}
+            ] ]
+
+            , done: function (res, curr, count) {
+                //如果是异步请求数据方式，res即为你接口返回的信息。curr 当前页码 count
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                allData = res.data;
+                console.log(allData);
+            }
+        });
+    //});
+
+
+    function openParentActive(text) {
+        parent.parentAddTab(text);
+    }
+
+
+    function create() {
+        $.ajax({
+            url: "/vote/createOption/" + voteId,
+            type: "POST",
+            //需要设置contentType为application/json;charset=utf-8
+            contentType: "application/json;charset=utf-8",
+            //参数是json字符串
+            data: JSON.stringify(allData),
+            success: function (data) {
+                if (data != null) {
+                    layer.msg(data.msg);
+                    if (data.code == 200) {
+                        table.reload('table');
+                    }
+                } else {
+                    alert("出现未知错误，请稍后重试");
+                }
+            }
+        });
+    }
+
+    function pub() {
+        $.ajax({
+            url: "/vote/saveOption/" + voteId,
+            type: "POST",
+            //需要设置contentType为application/json;charset=utf-8
+            contentType: "application/json;charset=utf-8",
+            //参数是json字符串
+            data: JSON.stringify(allData),
+            success: function (data) {
+                if (data != null) {
+                    layer.msg(data.msg);
+                    table.reload('table');
+                } else {
+                    alert("出现未知错误，请稍后重试");
+                }
+            }
+        });
+    }
+
+
+
+    function del(text) {
+        var optionId = $(text).attr("value");
+        var title = "投票选项删除后无法恢复，确定要删除吗？"
+        layer.confirm(title, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "/vote/deleteOption/"+ voteId + "/" + optionId,
+                type: "POST",
+                data: null,
+                success: function (data) {
+                    if (data != null) {
+                        layer.msg(data.msg);
+                        table.reload('table');
+                    } else {
+                        alert("出现未知错误，请稍后重试");
+                    }
+                }
+            });
+        }, function () {});
+    }
+
+</script>
+
+
+<script type="text/html" id="operation">
+
+    <intput id = "delelog" type="button" class="layui-table-link" value="{{d.optionId}}" onclick="del(this)"> 删除 </intput>
+
+    <!--<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.optionId}}" onclick="mod({{d.optionId}})" >修改</intput>-->
+</script>
+
+
+
+
+</body>
+</html>

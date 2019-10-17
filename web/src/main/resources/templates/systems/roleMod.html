@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+</style>
+<body th:if="${! sysAuthority.hasRole('ROLE_ADMIN')}">没有权限</body>
+<body class="layui-fluid"  style="margin-top: 5px;" th:if="${sysAuthority.hasRole('ROLE_ADMIN')}">
+
+    <form class="layui-form" action="" onsubmit="return false">
+        <div class="layui-form-item" th:if="${ sysRole != null and sysRole.id > 0 }">
+            <label class="layui-form-label">角色ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="id"  readonly="readonly" disabled  placeholder="请输入角色ID" autocomplete="off" class="layui-input" th:value="${ sysRole.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="roleName" required  lay-verify="required" placeholder="请输入角色名称" autocomplete="off" class="layui-input" th:if="${ sysRole != null}" th:value="${ sysRole.roleName}">
+                <input type="text" name="roleName" required  lay-verify="required" placeholder="请输入角色名称" autocomplete="off" class="layui-input" th:if="${ sysRole == null}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限字符串</label>
+            <div class="layui-input-block">
+                <input type="text" name="roleKey" required  lay-verify="required" placeholder="请输入权限字符串" autocomplete="off" class="layui-input" th:if="${ sysRole != null}" th:value="${ sysRole.roleKey}">
+                <input type="text" name="roleKey" required  lay-verify="required" placeholder="请输入权限字符串" autocomplete="off" class="layui-input" th:if="${ sysRole == null}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" required  lay-verify="required" placeholder="请输入备注" autocomplete="off" class="layui-input" th:if="${ sysRole != null}" th:value="${ sysRole.remark}">
+                <input type="text" name="remark" required  lay-verify="required" placeholder="请输入备注" autocomplete="off" class="layui-input" th:if="${ sysRole == null}">
+            </div>
+        </div>
+        <div classs="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        layui.use('form', function () {
+            var form = layui.form;
+            form.on('submit(formDemo)', function (data) {
+                //执行 Ajax 后重载
+                $.ajax({
+                    url: "/system/roleMod",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify(data.field),
+                    //参数是json字符串
+                    success: function (data) {
+                        if (data != null) {
+                            layer.msg(data.msg);
+                        } else if (data != null) {
+                            layer.alert(data.msg, {
+                                title: '信息：'
+                            })
+                        } else {
+                            layer.alert("出现位置错误，请刷新页面", {
+                                title: '信息：'
+                            })
+                        }
+                    }
+                });
+                table.reload('demo');
+                return false;
+            });
+        });
+    </script>
+
+</body>
+</html>

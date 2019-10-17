@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+</style>
+<body th:if="${! sysAuthority.hasRole('ROLE_ADMIN')}">没有权限</body>
+<body th:if="${sysAuthority.hasRole('ROLE_ADMIN')}">
+<div class="layui-form ">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">碎片名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" placeholder="请输入，支持模糊搜索" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block">
+                <select name="type" lay-search>
+                    <option value="">请选择</option>
+                    <option value="0">普通碎片</option>
+                    <option value="1">专题碎片</option>
+                    <option value="2">广告碎片</option>
+                    <option value="3">MP碎片</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+            <button class="layui-btn layuiadmin-btn-admin" onclick="add()">添加</button>
+            <button class="layui-btn layuiadmin-btn-admin" onclick="addDynamicTarget()">生成动态标签</button>
+            <button class="layui-btn layuiadmin-btn-admin" title="只刷新表格部分" onclick="layui.table.reload('demo')">重载表格</button>
+            <button class="layui-btn" title="刷新整个页面" onclick="location.reload()">刷新</button>
+        </div>
+    </div>
+</div>
+
+<div class="layui-card-body">
+    <table id="demo" lay-filter="test"></table>
+    <script type="text/html" id="titleTplStatus">
+        {{#  if(d.status == 0){ }}
+        <button class="layui-btn layui-btn-xs">未发布</button>
+        {{#  } else if(d.status == 1) { }}
+        <button class="layui-btn layui-btn-xs">已发布</button>
+        {{#  } else if(d.status == 2) { }}
+        <button class="layui-btn layui-btn-primary layui-btn-xs">禁用</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs">未发布</button>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="titleTplCateId">
+        {{#  if(d.type == 0){ }}
+        <button class="layui-btn layui-btn-xs layui-btn-primary">普通碎片</button>
+        {{#  } else if(d.type == 1) { }}
+        <button class="layui-btn layui-btn-xs">专题碎片</button>
+        {{#  } else if(d.type == 2) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-normal">广告碎片</button>
+        {{#  } else if(d.type == 3) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-warm">MP碎片</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs layui-btn-normal">普通碎片</button>
+        {{#  } }}
+    </script>
+</div>
+
+<script>
+    var pageId = [[${pageId!=null ? pageId : '0'}]];
+    var table ;
+    layui.use(['table','element'], function () {
+        table = layui.table;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //监听搜索
+        form.on('submit(LAY-user-back-search)', function(data){
+            var field = data.field;
+            console.log(field);
+            // 执行重载
+            table.reload('demo', {
+                where: field
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        });
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , url: '/system/file/list' //数据接口
+            , page: true //开启分页
+            , limit: 30
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            ,height: 'full-65'
+            //表头
+            , cols: [ [
+                {field: 'id', title: 'ID', width: 80, sort: true, width: '4%'}
+                , {field: 'fileitemId', title: '内容ID', sort: true, width: '5%'}
+                , {field: 'name', title: '碎片名称', sort: true, width: '16%'}
+                , {field: 'url', title: '请求URL地址', width: '5%', width: '10%', templet: '<div><a href="{{d.url}}" target="_blank">{{d.url}}</a></div>'}
+                , {field: 'type', title: '类型', templet: '#titleTplCateId', width: '7%'}
+                , {field: 'publishRemark', title: '发布备注', width: '6%'}
+                , {field: 'status', title: '状态', templet: '#titleTplStatus', width: '5%'}
+                , {field: 'publishUser', title: '发布账户' , sort: true}
+                , {field: 'publishTime', title: '发布时间', sort: true }
+                , {
+                    field: 'mod', title: '操作' ,
+                    templet:
+                         '<div> ' +
+                        '<intput type="button" class="layui-btn layui-btn-danger layui-btn-xs" href="#" value="{{d.id}}" onclick="use(this,2)" >禁用</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" onclick="use(this,0)" >启用</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" onclick="mod({{d.id}})" >修改</intput>' +
+
+                        '</div>'
+                }
+            ] ]
+        });
+    });
+
+    function use(text, status) {
+        if (status != 0 && status != 1&& status != 2) {
+            return false;
+        }
+        var title = "";
+        if (status == 0) {
+            title = "你确定要启用该碎片吗？";
+        }
+        if (status == 2) {
+            title = "你确定要禁用该碎片吗？";
+        }
+        var userId = $(text).attr("value");
+        layer.confirm(title, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "/system/file/status/" + userId + "/" + status,
+                success: function (data) {
+                    layer.alert(data.msg, {
+                        title: '信息：'
+                    });
+                    // 执行重载
+                    table.reload('demo');
+                }
+            });
+        }, function () {
+        });
+    }
+
+    //iframe层
+    function add() {
+        layer.open({
+            type: 2,
+            title: '碎片添加&修改',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['75%', '90%'],
+            content: '/content/add.html' //iframe的url
+        });
+    }
+
+    function addDynamicTarget() {
+        layer.open({
+            type: 2,
+            title: '动态标签生成',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['45%', '60%'],
+            content: '/content/dynamicTarget.html' //iframe的url
+        });
+    }
+
+    //iframe层
+    function mod(id) {
+        if (id == null) {
+            id = 0;
+        }
+        layer.open({
+            type: 2,
+            title: '页面添加',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['40%', '50%'],
+            content: '/system/fileMod.html?id=' + id //iframe的url
+        });
+    }
+</script>
+
+</body>
+</html>
