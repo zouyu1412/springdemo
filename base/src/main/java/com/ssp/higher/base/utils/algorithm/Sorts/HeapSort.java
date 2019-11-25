@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static Sorts.SortUtils.*;
+import static com.ssp.higher.base.utils.algorithm.Sorts.SortUtils.*;
 
 /**
  * Heap Sort Algorithm

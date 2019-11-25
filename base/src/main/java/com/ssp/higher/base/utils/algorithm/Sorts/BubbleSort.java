@@ -1,6 +1,8 @@
 package com.ssp.higher.base.utils.algorithm.Sorts;
 
-import static Sorts.SortUtils.*;
+import com.ssp.higher.base.utils.algorithm.Sorts.SortUtils;
+
+import static com.ssp.higher.base.utils.algorithm.Sorts.SortUtils.*;
 
 /**
  * @author Varun Upadhyay (https://github.com/varunu28)

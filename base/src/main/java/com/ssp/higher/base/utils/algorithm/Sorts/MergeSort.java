@@ -1,6 +1,6 @@
 package com.ssp.higher.base.utils.algorithm.Sorts;
 
-import static Sorts.SortUtils.print;
+import static com.ssp.higher.base.utils.algorithm.Sorts.SortUtils.*;
 
 /**
  * This method implements the Generic Merge Sort

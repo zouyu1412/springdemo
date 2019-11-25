@@ -1,7 +1,6 @@
 package com.ssp.higher.base.utils.algorithm.Sorts;
 
-import static Sorts.SortUtils.less;
-import static Sorts.SortUtils.print;
+import static com.ssp.higher.base.utils.algorithm.Sorts.SortUtils.*;
 
 /**
  * @author Podshivalov Nikita (https://github.com/nikitap492)

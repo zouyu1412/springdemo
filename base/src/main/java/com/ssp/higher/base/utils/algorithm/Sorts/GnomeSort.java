@@ -1,6 +1,6 @@
 package com.ssp.higher.base.utils.algorithm.Sorts;
 
-import static Sorts.SortUtils.*;
+import static com.ssp.higher.base.utils.algorithm.Sorts.SortUtils.*;
 
 /**
  * Implementation of gnome sort

@@ -11,9 +11,11 @@ public class CallableAndFuture {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> future = executor.submit(new Callable<String>() {
             public String call() throws Exception {
+                Thread.sleep(2000);
                 return "MOBIN";
             }
         });
         System.out.println("任务的执行结果："+future.get());
+
     }
 }

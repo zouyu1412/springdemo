@@ -8,13 +8,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="base" />
         <module name="business" />
+        <module name="filter-log-starter" />
         <module name="web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="base" target="1.8" />
       <module name="business" target="1.8" />
+      <module name="filter-log-starter" target="1.8" />
       <module name="higher" target="1.8" />
+      <module name="starter" target="1.8" />
       <module name="web" target="8" />
     </bytecodeTargetLevel>
   </component>
