@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
-      <module fileurl="file://$PROJECT_DIR$/business/business.iml" filepath="$PROJECT_DIR$/business/business.iml" />
+      <module fileurl="file://$PROJECT_DIR$/origin-web/base/base.iml" filepath="$PROJECT_DIR$/origin-web/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/origin-web/business/business.iml" filepath="$PROJECT_DIR$/origin-web/business/business.iml" />
       <module fileurl="file://$PROJECT_DIR$/starter/filter-log-starter/filter-log-starter.iml" filepath="$PROJECT_DIR$/starter/filter-log-starter/filter-log-starter.iml" />
       <module fileurl="file://$PROJECT_DIR$/higher.iml" filepath="$PROJECT_DIR$/higher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/origin-web/origin-web.iml" filepath="$PROJECT_DIR$/origin-web/origin-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/starter/starter.iml" filepath="$PROJECT_DIR$/starter/starter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/origin-web/web/web.iml" filepath="$PROJECT_DIR$/origin-web/web/web.iml" />
     </modules>
   </component>
 </project>

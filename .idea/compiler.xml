@@ -17,6 +17,7 @@
       <module name="business" target="1.8" />
       <module name="filter-log-starter" target="1.8" />
       <module name="higher" target="1.8" />
+      <module name="origin-web" target="1.8" />
       <module name="starter" target="1.8" />
       <module name="web" target="8" />
     </bytecodeTargetLevel>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+</style>
+<body th:if="${! sysAuthority.hasRole('ROLE_ADMIN')}">没有权限</body>
+<body class="layui-fluid"  style="margin-top: 5px;" th:if="${sysAuthority.hasRole('ROLE_ADMIN')}">
+
+<form class="layui-form" action="" onsubmit="return false">
+    <div class="layui-form-item" >
+        <label class="layui-form-label">日志主键</label>
+        <div class="layui-input-block">
+            <input type="text" name="id" autocomplete="off" class="layui-input" th:value="${ sysLog != null && sysLog.id != null ?  sysLog.id : ''}">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">操作模块名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" autocomplete="off" class="layui-input" th:value="${ sysLog != null && sysLog.title != null ?  sysLog.title: ''}">
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <label class="layui-form-label">请求URL</label>
+        <div class="layui-input-block">
+            <input type="text" name="url" autocomplete="off" class="layui-input" th:value="${ sysLog != null && sysLog.url != null ?  sysLog.url: ''}">
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <label class="layui-form-label">请求IP</label>
+        <div class="layui-input-block">
+            <input type="text" name="ip" autocomplete="off" class="layui-input" th:value="${ sysLog != null && sysLog.ip != null ?  sysLog.ip: ''}">
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <label class="layui-form-label">请求方法</label>
+        <div class="layui-input-block">
+            <input type="text" name="method" autocomplete="off" class="layui-input" th:value="${ sysLog != null && sysLog.method != null ?  sysLog.method: ''}">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">请求参数</label>
+        <div class="layui-input-block">
+            <textarea name="content" id="param" placeholder="请求参数" class="layui-textarea" rows="4" th:text="${ sysLog != null && sysLog.param != null ?  sysLog.param: ''}"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">业务类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="businessType" autocomplete="off" class="layui-input" value="0其它" th:if="${ sysLog == null}">
+            <input type="text" name="businessType" autocomplete="off" class="layui-input" value="0其它" th:if="${ sysLog != null && sysLog.businessType == 0 }">
+            <input type="text" name="businessType" autocomplete="off" class="layui-input" value="1新增" th:if="${ sysLog != null && sysLog.businessType == 1 }">
+            <input type="text" name="businessType" autocomplete="off" class="layui-input" value="2删除" th:if="${ sysLog != null && sysLog.businessType == 2 }">
+            <input type="text" name="businessType" autocomplete="off" class="layui-input" value="3查询" th:if="${ sysLog != null && sysLog.businessType == 3 }">
+            <input type="text" name="businessType" autocomplete="off" class="layui-input" value="4修改" th:if="${ sysLog != null && sysLog.businessType == 4 }">
+            <input type="text" name="businessType" autocomplete="off" class="layui-input" value="5登陆" th:if="${ sysLog != null && sysLog.businessType == 5 }">
+            <input type="text" name="businessType" autocomplete="off" class="layui-input" value="6退出" th:if="${ sysLog != null && sysLog.businessType == 6 }">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">角色类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="roleType" autocomplete="off" class="layui-input" value="0普通角色" th:if="${ sysLog == null}">
+            <input type="text" name="roleType" autocomplete="off" class="layui-input" value="0普通角色" th:if="${ sysLog != null && sysLog.roleType == 0 }">
+            <input type="text" name="roleType" autocomplete="off" class="layui-input" value="1管理员  " th:if="${ sysLog != null && sysLog.roleType == 1 }">
+            <input type="text" name="roleType" autocomplete="off" class="layui-input" value="2基础编辑" th:if="${ sysLog != null && sysLog.roleType == 2 }">
+            <input type="text" name="roleType" autocomplete="off" class="layui-input" value="3流编辑  " th:if="${ sysLog != null && sysLog.roleType == 3 }">
+            <input type="text" name="roleType" autocomplete="off" class="layui-input" value="4投票编辑" th:if="${ sysLog != null && sysLog.roleType == 4 }">
+            <input type="text" name="roleType" autocomplete="off" class="layui-input" value="5投诉管理" th:if="${ sysLog != null && sysLog.roleType == 5 }">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">操作人员</label>
+        <div class="layui-input-block">
+            <input type="text" name="updateUser" autocomplete="off" class="layui-input" th:value="${ sysLog != null && sysLog.updateUser != null ?  sysLog.updateUser: ''}">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">操作时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="updateTime" autocomplete="off" class="layui-input" th:value="${ sysLog != null && sysLog.updateTime != null ?  #dates.format(sysLog.updateTime,'yyyy-MM-dd HH:mm:ss'): ''}">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">错误消息</label>
+        <div class="layui-input-block">
+            <textarea name="errormsg" id="errormsg" placeholder="错误消息" class="layui-textarea" rows="4" th:text="${ sysLog != null && sysLog.errormsg != null ?  sysLog.errormsg: ''}"></textarea>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+    });
+</script>
+
+</body>
+</html>

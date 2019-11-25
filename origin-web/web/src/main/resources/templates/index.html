@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+</style>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div th:replace="common/common :: header"/>
+    <!-- 左侧导航栏 -->
+    <div th:replace="common/common :: side"/>
+
+    <div class="layui-body">
+        <!-- ===================== 内容主体区域 ===================== -->
+        <div class="layui-tab " lay-filter="demo" lay-allowclose="true">
+            <ul class="layui-tab-title">
+            </ul>
+            <ul class="rightmenu layui-bg-gray " style="display: none;position: absolute;">
+                <p> <li data-type="closethis"  class="layui-btn layui-btn-xs">关闭当前</li> </p>
+                <p> <li data-type="closeother"  class="layui-btn layui-btn-xs  layui-btn-warm">关闭其他</li> </p>
+                <p> <li data-type="closeall"  class="layui-btn layui-btn-xs layui-btn-danger">关闭所有</li> </p>
+            </ul>
+            <div class="layui-tab-content">
+            </div>
+        </div>
+        <!-- ===================== 内容主体区域 ===================== -->
+    </div>
+
+    <div th:replace="common/common :: footer"/>
+</div>
+</body>
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        // 每2分钟进行一下心跳检查，如果出现登陆视频
+        setInterval(function () {
+            $.ajax({
+                url: "/system/loginfo",
+                type: "GET",
+                success: function (data) {
+                    if (data != null && data.code != 200) {
+                        layer.alert(data.msg);
+                        timeIntevar =10000;
+                        return;
+                    }
+                    if (data == null) {
+                        layer.alert("出现网络错误、用户退出或者长时间未操作，请刷新网页或重新登陆");
+                        return;
+                    }
+                }
+            });
+        }, 120000);
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+    .layui-table-cell{
+        height:auto !important;
+    }
+</style>
+<body th:if="${sysAuthority.hasRole('ROLE_STREAM')}">
+
+<input type="hidden" th:value="${poolId}" id="id"/>
+
+<table id="LAY_table_user" lay-filter="test"></table>
+<script>
+    var id = $('#id').attr("value");
+
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#LAY_table_user'
+            , url: '/article/listStreamArticle/' + id //数据接口
+            , page: true //开启分页
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            //表头
+            , cols: [ [
+                { field: 'id', title: 'ID', width:50 }
+                ,{ field: 'title', title: '标题' }
+                ,{ field: 'content', title: '内容链接' }
+                ,{ field: 'cover', title: '图片', templet:'#cover'}
+                ,{ field: 'picNum', title: '组图数' }
+                ,{ field: 'shareNum', title: '分享数' }
+                ,{ field: 'mod', title: '操作', templet: '#operation'}
+            ] ]
+        });
+    });
+
+    function openParentActive(text) {
+        parent.parentAddTab(text);
+    }
+</script>
+
+
+<script type="text/html" id="operation">
+    <intput type="button" class="layui-table-link site-demo-active" data-url= "/article/edit/{{d.id}}/{{id}}" data-id="article_edit_{{d.id}}"
+            data-title="分享专区编辑 {{d.id}}" data-type="tabAdd" onclick="openParentActive(this)" >编辑</intput>
+</script>
+
+
+<script type="text/html" id="cover">
+    {{#  if(d.cover != null){ }}
+    <div  style="width:50px" ><img src="{{ d.cover}}"  ></div>
+    {{#  } }}
+</script>
+
+</body>
+</html>

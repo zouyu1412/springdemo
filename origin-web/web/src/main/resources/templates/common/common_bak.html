@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:text="${'搜狐汽车_内容管理后台_'+ pageDescription}">搜狐汽车_内容管理后台</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/layui/css/admin.css">
+    <script src="/static/layui/layui.js"></script>
+</head>
+
+
+<div class="layui-header" th:fragment="header">
+    <div class="layui-logo">内容管理后台</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item"><a href="">控制台</a></li>
+        <li class="layui-nav-item"><a href="">商品管理</a></li>
+        <li class="layui-nav-item"><a href="">用户</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">其它系统</a>
+            <dl class="layui-nav-child">
+                <dd><a href="">邮件管理</a></dd>
+                <dd><a href="">消息管理</a></dd>
+                <dd><a href="">授权管理</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                贤心
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a href="">基本资料</a></dd>
+                <dd><a href="">安全设置</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">退了</a></li>
+    </ul>
+</div>
+
+
+<div class="layui-side layui-bg-black" th:fragment="side">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item" th:classappend="${pageName}=='index' ? 'layui-nav-itemed' : ''">
+                <a class="" href="javascript:;">首页</a>
+                <dl class="layui-nav-child">
+                    <dd class="layui-this">
+                        <a href="javascript:;" th:href="${pageName}=='index' ? 'javascript:;' : '/'">列表一</a>
+                    </dd>
+                    <dd><a href="">超链接</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item ">
+                <a href="javascript:;">解决方案</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">列表一</a></dd>
+                    <dd><a href="javascript:;">列表二</a></dd>
+                    <dd><a href="">超链接</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">云市场</a></li>
+
+            <!--图片上传-->
+            <li class="layui-nav-item" th:classappend="${pageName}=='picupload' ? 'layui-nav-itemed layui-this' : ''">
+                <a href="" th:href="${pageName}=='picupload' ? 'javascript:;' : '/picupload/'">图片上传</a>
+            </li>
+
+            <!--系统管理-->
+            <li class="layui-nav-item " th:classappend="${pageName}=='system' ? 'layui-nav-itemed' : ''">
+                <a href="javascript:;">系统管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" th:href="${pageName}=='system' ? 'javascript:;' : '/system/'">用户管理</a>
+                    </dd>
+                    <dd><a href="javascript:;" th:href="${pageName}=='system' ? 'javascript:;' : '/system/'">角色管理</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="layui-footer" th:fragment="footer">
+    <!-- 底部固定区域 -->
+    <a href="//auto.sohu.com"> © auto.sohu.com - 搜狐汽车 2019</a>
+</div>
+
+
+<!--左侧-->
+<div class="layui-side layui-bg-black" th:fragment="side2">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item" th:classappend="${pageName}=='index' ? 'layui-nav-itemed' : ''">
+                <a class="" href="javascript:;">文章</a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="/pool" data-id="pool" data-title="文章池" href="#" class="site-demo-active"
+                           data-type="tabAdd">文章池</a>
+                    </dd>
+                    <dd>
+                        <a data-url="b" data-id="22" data-title="选项b" href="#" class="site-demo-active"
+                           data-type="tabAdd">选项b</a>
+                    </dd>
+                    <dd class="layui-this">
+                        <a href="javascript:;" th:href="${pageName}=='index' ? 'javascript:;' : '/'">列表一</a>
+                    </dd>
+                    <dd><a href="">超链接</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item ">
+                <a href="javascript:;">解决方案</a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a data-url="a" data-id="11" data-title="选项a" href="#" class="site-demo-active"
+                           data-type="tabAdd">选项a</a>
+                    </dd>
+                    <dd>
+                        <a data-url="b" data-id="22" data-title="选项b" href="#" class="site-demo-active"
+                           data-type="tabAdd">选项b</a>
+                    </dd>
+                    <dd>
+                        <a href="">跳转</a>
+                    </dd>
+
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">云市场</a></li>
+
+            <!--图片上传-->
+            <li class="layui-nav-item" th:classappend="${pageName}=='picupload' ? 'layui-nav-itemed layui-this' : ''">
+                <a data-url="/picupload/2.html" data-id="picupload" data-title="图片上传" class="site-demo-active"
+                   data-type="tabAdd" th:href="'#'">图片上传</a>
+            </li>
+
+            <!--系统管理-->
+            <li class="layui-nav-item " th:classappend="${pageName}=='system' ? 'layui-nav-itemed' : ''">
+                <a href="javascript:;">系统管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" th:href="${pageName}=='system' ? 'javascript:;' : '/system/'">用户管理</a>
+                    </dd>
+                    <dd><a href="javascript:;" th:href="${pageName}=='system' ? 'javascript:;' : '/system/'">角色管理</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>

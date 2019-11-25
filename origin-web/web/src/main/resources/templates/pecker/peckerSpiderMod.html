@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+
+    .layui-table-cell {
+        height: auto !important;
+    }
+</style>
+<body th:if="${sysAuthority.hasRole('ROLE_PECKER')}">
+<!-- 内容主体区域 -->
+
+<div th:if="! ${peckerSpiderVo}">
+    <h1>该条数据不存在</h1>
+    <h1>请返回检查数据</h1>
+</div>
+<div th:if="${peckerSpiderVo}">
+
+    <form class="layui-form" action="" onsubmit="return false">
+
+        <div classs="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" onclick="location.reload()">刷新</button>
+                <button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
+
+                <!--<button class="layui-btn layui-btn-warm" onclick="convertPub(0)" th:if="${  peckerSpiderVo.status != 2 }">转换为啄木鸟投诉 & 不发布</button>-->
+                <button class="layui-btn layui-btn-danger" onclick="convertPub(2)" th:if="${ peckerSpiderVo.status != 2 }">转换为啄木鸟投诉 & 发布</button>
+                <button class="layui-btn layui-btn-danger" th:if="${ peckerSpiderVo.status == 2 }" th:data-url="${ '/pecker/peckerCaseMod.html?caseId=' + peckerSpiderVo?.caseId }"  th:data-id="${ 'pecker_peckerCaseMod_' + peckerSpiderVo?.caseId }" th:data-title="${ '投诉内容 ' + peckerSpiderVo?.caseId }" data-type="tabAdd" onclick="openParentActive(this)" >查看对应的啄木鸟投诉</button>
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">投诉标题</label>
+            <div class="layui-input-block">
+                <input type="text" id="title" name="title" required lay-verify="required" placeholder="请输入投诉标题" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo?.title}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item" th:if="${ peckerSpiderVo != null and peckerSpiderVo.caseId > 0 }">
+            <label class="layui-form-label">转换ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="caseId" readonly="readonly" disabled placeholder="已经转换啄木鸟的投诉" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo.caseId}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">选择频道</label>
+                <div class="layui-input-inline">
+                    <select name="channelId" lay-search>
+                        <option value="">请选择</option>
+                        <span th:each="peckerChannel:${peckerChannels}">
+                            <option th:value="${peckerChannel.id}" th:text="${peckerChannel.channelName  } + ' '+${ peckerChannel.channelKey} " th:selected="${peckerSpiderVo != null && peckerChannel.id == peckerSpiderVo.channelId }"></option>
+                        </span>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">来源</label>
+                <div class="layui-input-inline">
+                    <select name="type" lay-search="">
+                        <option value="">请选择，最好不要动</option>
+                        <option value="0" th:selected="${ peckerSpiderVo != null && peckerSpiderVo.type == 0 }">0 黑猫 </option>
+                        <option value="1" th:selected="${ peckerSpiderVo != null && peckerSpiderVo.type == 1 }">1 车质网 </option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <select name="status" lay-search="">
+                        <option value="">请选择，最好不要动</option>
+                        <option value="0" th:selected="${ peckerSpiderVo != null && peckerSpiderVo.status == 0 }">0 正常 </option>
+                        <option value="1" th:selected="${ peckerSpiderVo != null && peckerSpiderVo.status == 1 }">1 删除 </option>
+                        <option value="2" th:selected="${ peckerSpiderVo != null && peckerSpiderVo.status == 2 }">2 已转为官网投诉 </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">1级投诉ID</label>
+            <div class="layui-input-inline" style="width: 20%;">
+                <input type="text" name="companyIdOne" placeholder="1级投诉ID 如品牌ID、城市code" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo?.companyIdOne}">
+            </div>
+            <label class="layui-form-label">1级投诉名称</label>
+            <div class="layui-input-inline" style="width: 40%;">
+                <input type="text" name="companyNameOne" placeholder="1级投诉对象" required lay-verify="required" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo?.companyNameOne}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">2级投诉ID</label>
+            <div class="layui-input-inline" style="width: 20%;">
+                <input type="text" name="companyIdTwo" placeholder="2级投诉ID 如车型ID" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo?.companyIdTwo}">
+            </div>
+            <label class="layui-form-label">1级投诉名称</label>
+            <div class="layui-input-inline" style="width: 40%;">
+                <input type="text" name="companyNameTwo" placeholder="2级投诉对象" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo?.companyNameTwo}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">3级投诉</label>
+            <div class="layui-input-inline" style="width: 20%;">
+                <input type="text" name="companyIdThree" placeholder="3级投诉ID 如车款ID" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo?.companyIdThree}">
+            </div>
+            <label class="layui-form-label">3级投诉名称</label>
+            <div class="layui-input-inline" style="width: 40%;">
+                <input type="text" name="companyNameThree" placeholder="3级投诉对象" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo?.companyNameThree}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">投诉内容</label>
+            <div class="layui-input-block">
+                <textarea name="content" id="content" placeholder="投诉内容" class="layui-textarea" rows="5" th:text="${peckerSpiderVo?.content }"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">发布时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="pubTime" name="pubTime" placeholder="对方发布时间" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo?.pubTime == null } ? '' : ${ #dates.format( peckerSpiderVo.pubTime, 'yyyy-MM-dd HH:mm:ss' ) }"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">来源URL</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" readonly="readonly" disabled placeholder="来源URL" autocomplete="off" class="layui-input" th:value="${ peckerSpiderVo.url}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">主键ID</label>
+            <div class="layui-input-inline" style="width: 10%;">
+                <input type="text" name="id" readonly="readonly" placeholder="主键ID" autocomplete="off" class="layui-input layui-disabled" th:value="${ peckerSpiderVo?.id}">
+            </div>
+            <label class="layui-form-label">对方ID</label>
+            <div class="layui-input-inline" style="width: 10%;">
+                <input type="text" name="uid" readonly="readonly" placeholder="爬取的唯一ID" autocomplete="off" class="layui-input layui-disabled" th:value="${ peckerSpiderVo?.uid}">
+            </div>
+            <label class="layui-form-label">已转换ID</label>
+            <div class="layui-input-inline" style="width: 10%;">
+                <input type="text" name="caseId" readonly="readonly" placeholder="已转换的投诉ID" autocomplete="off" class="layui-input layui-disabled" th:value="${ peckerSpiderVo?.caseId}">
+            </div>
+        </div>
+    </form>
+
+    <table id="peckerSpiderPic" lay-filter="peckerSpiderPic"></table>
+    <script type="text/html" id="cdnUrl">
+        {{#  if(d.cdnUrl != null){ }}
+        <div style="width:10px"><a href="{{d.cdnUrl}}" target="_blank"><img src="{{ d.cdnUrl}}"></a></div>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="titleTplStatus">
+        {{#  if(d.status == 0){ }}
+        <button class="layui-btn layui-btn-xs">正常</button>
+        {{#  } else if(d.status == 1) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs">正常</button>
+        {{#  } }}
+    </script>
+
+</div>
+
+<script th:inline="javascript">
+    var id = [[${id}]];
+
+    layui.use(['table', 'laydate'], function () {
+        table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var element = layui.element;
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#pubTime' //指定元素
+            , type: 'datetime'
+        });
+        form.on('submit(formDemo)', function (data) {
+            //执行 Ajax 后重载
+            $.ajax({
+                url: "/pecker/peckerSpiderMod",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(data.field),
+                //参数是json字符串
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                }
+            });
+            parent.layui.table.reload('peckerSohuVoice');
+            return false;
+        });
+
+        //第一个实例
+        table.render({
+            elem: '#peckerSpiderPic'
+            , url: '/pecker/listPeckerSpiderPic/list/' + id //数据接口
+            , page: true //开启分页
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            , limit: 30
+            , cols: [[ //表头
+                {field: 'id', title: '图片ID', sort: true, width: 80}
+                , {field: 'spiderId', title: '爬虫ID', sort: true}
+                , {field: 'uid', title: '唯一ID', sort: true}
+                , {field: 'picUrl', title: '来源图片', sort: true}
+                , {field: 'cdnUrl', title: '搜狐图片', templet: '#cdnUrl'}
+                , {field: 'status', title: '状态', templet: '#titleTplStatus', width: '5%', sort: true}
+                , {field: 'createTime', title: '更新时间', sort: true}
+                , {
+                    field: 'mod', title: '操作', width: '20%',
+                    templet:
+                        '<div> ' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" title="你确定要删除该图片吗？" targetUrl="peckerSpiderPic" onclick="changeStatus(this,1)" >删除该图片</intput> &nbsp;' +
+                        '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" value="{{d.id}}" title="你确定要恢复该图片吗？" targetUrl="peckerSpiderPic" onclick="changeStatus(this,0)" >恢复该图片</intput> &nbsp;' +
+                        '</div>'
+                }
+            ]]
+        });
+    });
+
+    function tableReload(tableElem) {
+        layui.table.reload(tableElem);
+    }
+    function openParentActive(text) {
+        parent.parentAddTab(text);
+    }
+    function convertPub(verify) {
+        layer.confirm("你确定要转换为啄木鸟投诉吗？<br> 1. 请先检查内容是否合法、分类是否合理 <br> 2. 请先图片是否无友商水印", {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "/pecker/peckerSpider/convert/" + id + "/" + verify,
+                type: "get",
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                        location.reload();
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (XMLHttpRequest != null && XMLHttpRequest.status) {
+                        layer.alert("操作失败，如果长时间未操作，请重新登陆 status：" + XMLHttpRequest.status);
+                    }
+                    layer.alert("操作失败，如果长时间未操作，重新登陆");
+                }
+            });
+        }, function () {
+        });
+    }
+
+    function changeStatus(text, status) {
+        if (status != 0 && status != 1) {
+            return false;
+        }
+        var id = $(text).attr("value");
+        var title = $(text).attr("title");
+        var targetUrl = $(text).attr("targetUrl");
+        layer.confirm(title, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "/pecker/" + targetUrl + "/status/" + id + "/" + status,
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                    // 执行重载
+                    layui.table.reload(targetUrl);
+                }
+            });
+        }, function () {
+        });
+    }
+
+
+
+
+</script>
+</body>
+
+</html>

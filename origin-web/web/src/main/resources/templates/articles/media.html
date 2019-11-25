@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+    .layui-table-cell{
+        height:auto !important;
+    }
+</style>
+<body th:if="${sysAuthority.hasRole('ROLE_STREAM')}">
+
+<!---->
+<intput type="button" class="layui-btn" onclick="createMedia()" >新增自媒体</intput>
+<button class="layui-btn layuiadmin-btn-admin" title="只刷新表格部分" onclick="layui.table.reload('table')">重载表格</button>
+
+
+<table id="table" lay-filter="test"></table>
+<script>
+    var type = [[${type}]];
+    var table ;
+    layui.use('table', function () {
+         table = layui.table;
+        table.render({
+            elem: '#table'
+            , url: '/article/listStreamModule/' + type //数据接口
+            , page: true //开启分页
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            ,height: 'full-65'
+            //表头
+            , cols: [ [
+                { field: 'id', title: 'ID', width: 60}
+                ,{ field: 'moduleId', title: '自媒体id' }
+                ,{ field: 'moduleName', title: '自媒体名称' }
+                ,{ field: 'cover', title: '自媒体头像', templet:'<div style="width:50px" ><img src="{{d.cover}}" ></div>'}
+                ,{ field: 'content', title: '链接地址' }
+                ,{ field: 'mod', title: '编辑', templet: '#operation'}
+            ] ]
+        });
+    });
+
+
+
+
+
+    function openParentActive(text) {
+        parent.parentAddTab(text);
+    }
+
+
+    function createMedia() {
+        parent.parentActive.tabAdd("/article/createModule/" + type, "create_module_" + type, "新增自媒体");
+        //最后不管是否新增tab，最后都转到要打开的选项页面上
+        //parent.parentActive.tabChange("/article/createModule/" + type);
+
+
+        parent.parentActive.tabChange("create_module_" + type);
+    }
+
+
+    function del(text) {
+        var id = $(text).attr("value");
+        alert(id);
+
+        $.ajax({
+            url: "/article/delModule/"+ id + "/" + type,
+            type: "POST",
+            data: null,
+            success: function (data) {
+                layer.msg(data.msg);
+            }
+        });
+    }
+
+</script>
+
+
+<script type="text/html" id="operation">
+    <intput type="button" class="layui-table-link site-demo-active" data-url= "/article/editModule/{{d.id}}/{{type}}" data-id="article_module_edit_{{d.id}}"
+            data-title="自媒体编辑 {{d.id}}" data-type="tabAdd" onclick="openParentActive(this)" >编辑</intput>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <intput id = "delelog" type="button" class="layui-btn" value="{{d.id}}" onclick="del(this)"> 删除 </intput>
+</script>
+
+
+<script type="text/html" id="cover">
+    {{#  if(d.cover != null){ }}
+    <div  style="width:50px" ><img src="{{ d.cover}}"  ></div>
+    {{#  } }}
+</script>
+
+</body>
+</html>

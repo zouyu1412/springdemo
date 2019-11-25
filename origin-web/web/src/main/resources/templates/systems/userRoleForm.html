@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+</style>
+<body th:if="${! sysAuthority.hasRole('ROLE_ADMIN')}">没有权限</body>
+<body th:if="${sysAuthority.hasRole('ROLE_ADMIN')}">
+<form class="layui-form" action="" id = "myform">
+    <div style="padding-bottom: 10px;">
+        <button class="layui-btn" lay-submit lay-filter="formDemo">保存授权</button>
+        <button class="layui-btn" onclick="location.reload()">刷新</button>
+    </div>
+
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>选择</th>
+            <th>ID</th>
+            <th>角色名称</th>
+            <th>权限字符串</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="role:${allSysRoles}">
+            <td>
+                <input type="checkbox" name="roleId"  th:value="${role.id}" lay-skin="switch" th:checked="${role.check}">
+            </td>
+            <td th:text="${role.id}"></td>
+            <td th:text="${role.roleName}"></td>
+            <td th:text="${role.roleKey}"></td>
+            <td th:text="${role.remark}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</form>
+
+</body>
+
+<script th:inline="javascript">
+    var userId = [[${userId}]];
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var fields = $(data.form).serialize();//重点就是这里
+            console.log(fields);
+            $.ajax({
+                url: "/system/userRole/change/" + userId,
+                type: "POST",
+                data: fields,
+                //参数是json字符串
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+</html>
+
+

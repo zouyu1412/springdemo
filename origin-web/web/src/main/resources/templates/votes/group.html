@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+
+    .layui-table-cell{
+        height:auto !important;
+    }
+</style>
+<body th:if="${sysAuthority.hasRole('ROLE_VOTE')}">
+
+<button class="layui-btn" onclick="location.reload()">刷新</button>
+
+<intput type="button" class="layui-btn" onclick="create()" >新建投票组/活动</intput>
+
+<table id="table" lay-filter="test"></table>
+
+
+<script src="/static/layui/layui.all.js"></script>
+<script>
+
+    // layui.use('table', function () {
+        var table = layui.table;
+/*        var $ = layui.jquery;
+        var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块*/
+        table.render({
+            elem: '#table'
+            , url: '/vote/listVoteGroup' //数据接口
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            //表头
+            , cols: [ [
+                { field: 'id', title: 'Id', width: 50}
+                ,{ field: 'title', title: '活动名称' }
+                ,{ field: 'description', title: '活动简介' }
+                ,{ field: 'beginTime', title: '活动开始时间' ,width: '10%'}
+                ,{ field: 'endTime', title: '活动结束时间' ,width: '10%'}
+                ,{ field: 'status', title: '发布状态', templet: '#titleTplStatus',  width: '5%'}
+                ,{ field: 'mod', title: '操作', templet: '#operation'}
+            ] ]
+        });
+    // });
+
+
+    function openParentActive(text) {
+        parent.parentAddTab(text);
+    }
+
+
+    function create() {
+        parent.parentActive.tabAdd("/vote/createGroup/", "vote_create_group", "新建活动");
+        //最后不管是否新增tab，最后都转到要打开的选项页面上
+        parent.parentActive.tabChange("vote_create_group");
+    }
+
+    function pub(text) {
+        var groupId = $(text).attr("value");
+        var title = "确定要发布吗？";
+        layer.confirm(title, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "/vote/pubGroup/"+ groupId,
+                type: "POST",
+                data: null,
+                success: function (data) {
+                    if (data != null) {
+                        layer.msg(data.msg);
+                        table.reload('table');
+                    } else {
+                        alert("出现未知错误，请稍后重试");
+                    }
+                }
+            });
+        }, function () {});
+    }
+
+</script>
+
+
+<script type="text/html" id="operation">
+    <intput type="button" class="layui-table-link site-demo-active" data-url= "/vote/editGroup/{{d.id}}" data-id="vote_editGroup_{{d.id}}"
+         data-title="投票活动编辑 {{d.id}}" data-type="tabAdd" onclick="openParentActive(this)" >编辑活动</intput>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <intput type="button" class="layui-table-link site-demo-active" data-url= "/vote/voteListOf/{{d.id}}" data-id="vote_voteListOf_{{d.id}}"
+            data-title="{{d.title}}投票管理{{d.id}}" data-type="tabAdd" onclick="openParentActive(this)" >管理投票</intput>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <intput id = "pub" type="button" class="layui-table-link" value="{{d.id}}" onclick="pub(this)">发布</intput>
+</script>
+
+
+
+
+<script type="text/html" id="cover">
+    {{#  if(d.cover != null){ }}
+    <div  style="width:50px" ><img src="{{ d.cover}}"  ></div>
+    {{#  } }}
+</script>
+
+<script type="text/html" id="titleTplStatus">
+    {{#  if(d.status == 0){ }}
+    <button class="layui-btn layui-btn-xs layui-btn-normal">未发布</button>
+    {{#  } else if(d.status == 1) { }}
+    <button class="layui-btn layui-btn-xs">已发布</button>
+    {{#  } else if(d.status == 2) { }}
+    <button class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+    {{#  } else { }}
+    <button class="layui-btn layui-btn-xs layui-btn-normal">未发布</button>
+    {{#  } }}
+</script>
+
+
+</body>
+</html>

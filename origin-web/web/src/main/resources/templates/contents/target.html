@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+</style>
+<body th:if="${! sysAuthority.hasRole('ROLE_EDITOR')}">没有权限</body>
+<body th:if="${sysAuthority.hasRole('ROLE_EDITOR')}">
+<form class="layui-form" action="" onsubmit="return false">
+    <div class="layui-form-item">
+        <label class="layui-form-label">数据来源</label>
+        <div class="layui-input-block">
+            <input type="text" name="data" id="data" placeholder="输出URL 或者 碎片ID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">数据类型</label>
+        <div class="layui-input-block">
+            <select name="type" id="type" lay-verify="required" lay-search>
+                <option value="url">url 链接</option>
+                <option value="inc">inc 碎片</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">过期时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="expire" id="expire" placeholder="单位是毫秒 0是永久不失效" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">生成内容</label>
+        <div class="layui-input-block">
+            <input type="text" name="result" id="result" placeholder="点击生成按钮即可" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">生成</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['laydate', 'form'], function () {
+        var form = layui.form;
+        form.on('submit(formDemo)', function (data) {
+            // <@@{"data":"https://www.baidu.com/","type":"url","expire":0}@@>
+
+            var data =  $("#data").val();
+            var type =  $("#type").val();
+            var expire =  $("#expire").val();
+            if(!expire){
+                expire = 0;
+            }
+            var result ='<@@ { "data" : "'+data + '" , "type" : "'+type+'" , "expire" : '+expire+' } @@>';
+            $("#result").val(result);
+            return false;
+        });
+    });
+</script>
+<script type="text/javascript">
+    // alert($.md5("Hello,Liehuo.Net"));
+</script>
+</body>
+
+</html>
+
+

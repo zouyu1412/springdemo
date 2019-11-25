@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+</style>
+<body th:if="${! sysAuthority.hasRole('ROLE_PECKER')}">没有权限</body>
+<body class="layui-fluid"  th:if="${sysAuthority.hasRole('ROLE_PECKER')}">
+<div class="layui-form ">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" placeholder="标题或文章内容" autocomplete="off" class="layui-input" th:value="${title}">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">作者ID</label>
+            <div class="layui-input-block">
+                <input type="text"  name="userId" id="userId"  placeholder="作者ID" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+            <button class="layui-btn" onclick="location.reload()">刷新</button>
+            <button class="layui-btn layuiadmin-btn-admin" onclick="layui.table.reload('peckerSohuVoice')">重载表格</button>
+        </div>
+    </div>
+</div>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">增加并发布选中的新闻</button>
+    </div>
+</script>
+<script>
+    var caseId = [[${caseId}]];
+    layui.use(['table','element'], function(){
+        var table = layui.table;
+        var form = layui.form;
+        //监听搜索
+        form.on('submit(LAY-user-back-search)', function(data){
+            var field = data.field;
+            console.log(field);
+            // 执行重载
+            table.reload('test', {
+                where: field
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        });
+        table.render({
+            elem: '#test'
+            ,url:'/pecker/listMpEsArticle'
+            , page: true //开启分页
+            , limit: 20
+            ,toolbar: '#toolbarDemo'
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            ,cols: [ [
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'userId', title:'用户ID', width:120, fixed: 'left', unresize: true, sort: true}
+                ,{field:'author', title:'作者', width:150,  edit: 'text'}
+                ,{field:'url', title:'URL', sort: true, templet: '<div><a target="_blank" href="{{d.url}}">{{d.url}}</a></div>'}
+                ,{field:'title', edit: 'text', title:'标题' }
+                ,{field:'postTime', title:'发布时间'}
+                ,{field:'userLevel', title:'用户级别(4级最高)', width:100, sort: true}
+                ,{field:'priority', title:'优先权', width:90, sort: true}
+            ]  ]
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    $.ajax({
+                        url:  "/pecker/peckerSohuVoiceBatch?caseId="+caseId,
+                        type: "POST",
+                        contentType:"application/json;charset=utf-8",
+                        data:JSON.stringify(data),
+                        success: function (data) {
+                            if (data != null && data.code == 200) {
+                                layer.msg(data.msg);
+                            } else if (data != null) {
+                                layer.alert(data.msg, {
+                                    title: '信息：'
+                                })
+                            } else {
+                                layer.alert("出现位置错误，请刷新页面", {
+                                    title: '信息：'
+                                })
+                            }
+                        }
+                    });
+                    break;
+            };
+        });
+    });
+    function tableReload( tableElem) {
+        layui.table.reload(tableElem);
+    }
+</script>
+
+</body>
+</html>
+
+

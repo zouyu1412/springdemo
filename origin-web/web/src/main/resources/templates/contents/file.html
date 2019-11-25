@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+
+<body th:if="${! sysAuthority.hasRole('ROLE_EDITOR')}">没有权限</body>
+<body th:if="${sysAuthority.hasRole('ROLE_EDITOR')}">
+<div class="layui-form ">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">碎片名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" placeholder="请输入，支持模糊搜索" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block">
+                <select name="type" lay-search>
+                    <option value="">请选择</option>
+                    <option value="0">普通碎片</option>
+                    <option value="1">专题碎片</option>
+                    <option value="2">广告碎片</option>
+                    <option value="3">MP碎片</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+            <button class="layui-btn layuiadmin-btn-admin" onclick="addDynamicTarget()">生成动态标签</button>
+            <button class="layui-btn layuiadmin-btn-admin" title="只刷新表格部分" onclick="layui.table.reload('demo')">重载表格</button>
+            <button class="layui-btn" title="刷新整个页面" onclick="location.reload()">刷新</button>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">常用工具</label>
+            <div class="layui-input-block">
+                <select lay-filter="LAY-user-back-select">
+                    <option value="">选择常用工具</option>
+                    <optgroup label="HTML工具">
+                        <option value="htmlcheck">html标签错误检测</option>
+                        <option value="htmlformat">html格式化</option>
+                    </optgroup>
+                    <optgroup label="预览页面">
+                        <option value="debug">内网预览</option>
+                        <option value="http">外网HTTP</option>
+                        <option value="https">外网HTTPS</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-card-body">
+    <table id="demo" lay-filter="test"></table>
+    <script type="text/html" id="titleTplStatus">
+        {{#  if(d.status == 0){ }}
+        <button class="layui-btn layui-btn-xs layui-btn-normal">未发布</button>
+        {{#  } else if(d.status == 1) { }}
+        <button class="layui-btn layui-btn-xs">已发布</button>
+        {{#  } else if(d.status == 2) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs layui-btn-norma">未发布</button>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="titleTplCateId">
+        {{#  if(d.type == 0){ }}
+        <button class="layui-btn layui-btn-xs layui-btn-primary">普通碎片</button>
+        {{#  } else if(d.type == 1) { }}
+        <button class="layui-btn layui-btn-xs">专题碎片</button>
+        {{#  } else if(d.type == 2) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-normal">广告碎片</button>
+        {{#  } else if(d.type == 3) { }}
+        <button class="layui-btn layui-btn-xs layui-btn-warm">MP碎片</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs layui-btn-normal">普通碎片</button>
+        {{#  } }}
+    </script>
+</div>
+
+<script>
+    var pageId = [[${pageId!=null ? pageId : '0'}]];
+    var pageUrl = '[[${page!=null ? page.url : ""}]]';
+    var table ;
+    layui.use(['table','element'], function () {
+        table = layui.table;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //监听搜索
+        form.on('submit(LAY-user-back-search)', function(data){
+            var field = data.field;
+            console.log(field);
+            // 执行重载
+            table.reload('demo', {
+                where: field
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        });
+
+        form.on('select(LAY-user-back-select)', function(data){
+            // console.log(data.elem); //得到select原始DOM对象
+            // console.log(data.value); //得到被选中的值
+            // console.log(data.othis); //得到美化后的DOM对象
+            var type = data.value;
+            var url = "" + pageUrl;
+            if (url != null) {
+                url = url.replace(/#.*/g, "")
+            }
+            if (type == "htmlcheck") {
+                url = "http://tool.chinaz.com/htmlcheck.aspx";
+            }
+            if (type == "htmlformat") {
+                url = "http://web.chacuo.net/formathtml/";
+            }
+            if (type == "debug") {
+                url = url + "?debug=true";
+            }
+            if (type == "http") {
+                url = url.replace(/http:\/\/content.auto.sohuno.com/g, "http://auto.sohu.com")
+            }
+            if (type == "https") {
+                url = url.replace(/http:\/\/content.auto.sohuno.com/g, "https://auto.sohu.com")
+            }
+            if (url == null || url == "null" || url.length < 10) {
+                return;
+            }
+            window.open(url, '_blank').location;
+        });
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , url: '/content/listContentFile/' + pageId //数据接口
+            , page: true //开启分页
+            , limit: 30
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            ,height: 'full-65'
+            //表头
+            , cols: [ [
+                {field: 'id', title: 'ID', width: 80, sort: true, width: '4%'}
+                , {field: 'fileitemId', title: '内容ID', sort: true, width: '5%'}
+                , {field: 'name', title: '碎片名称', sort: true, width: '20%'}
+                , {field: 'url', title: '请求URL地址', width: '5%', templet: '<div><a href="{{d.url}}" target="_blank">{{d.url}}</a></div>'}
+                , {field: 'type', title: '类型', templet: '#titleTplCateId', width: '6%'}
+                , {field: 'publishRemark', title: '发布备注', width: '6%'}
+                , {field: 'status', title: '状态', templet: '#titleTplStatus', width: '5%'}
+                , {field: 'updateUser', title: '修改账户' }
+                , {field: 'updateTime', title: '修改时间', sort: true, width: '10%'}
+                , {field: 'publishUser', title: '发布账户' }
+                , {field: 'publishTime', title: '发布时间', sort: true, width: '10%'}
+                , {
+                    field: 'mod', title: '操作', width: '15%',
+                    templet:
+                            '<div> ' +
+                            '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" data-url= "/content/edit/{{d.id}}" data-id="content_edit_{{d.id}}" data-title="碎片编辑 {{d.id}}" data-type="tabAdd" onclick="openParentActive(this)" >编辑</intput> &nbsp;' +
+                            '<a type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="/content/view?fileId={{d.id}}" target="_blank">预览</a> &nbsp;' +
+                            '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" href="#" remark="{{d.publishRemark}}" value="{{d.id}}" onclick="use(this)" >发布</intput> &nbsp;' +
+                            '<intput type="button" class="layui-btn layui-btn-normal layui-btn-xs" data-url= "/content/history/{{d.id}}" data-id="content_history_{{d.id}}" data-title="碎片历史 {{d.id}}" href="#" data-type="tabAdd" onclick="openParentActive(this)" >发布历史</intput>' +
+                            '</div>'
+                }
+            ] ]
+        });
+    });
+
+    function editContent(id) {
+        parent.parentActive.tabAdd("/content/edit/" + id, "content_edit_" + id, "编辑 " + id);
+        //最后不管是否新增tab，最后都转到要打开的选项页面上
+        parent.parentActive.tabChange("content_edit_" + id);
+    }
+
+
+    function viewHistory(text) {
+        parent.parentActive.tabAdd("/content/history/" + id, "content_history_" + id, "历史版本 " + id);
+        //最后不管是否新增tab，最后都转到要打开的选项页面上
+        parent.parentActive.tabChange("content_history_" + id);
+    }
+
+
+    function use(text) {
+        var fileId = $(text).attr("value");
+        var remark = $(text).attr("remark");
+        if (!remark || remark == "null") {
+            remark = ''
+        }
+        layer.prompt({title: '发版备注', value: remark, formType: 2}, function (text, index) {
+            layer.close(index);
+            $.ajax({
+                url: "/content/release/fileId/" + fileId,
+                type: "POST",
+                //需要设置contentType为application/json;charset=utf-8
+                // contentType: "application/json;charset=utf-8",
+                //参数是json字符串
+                data: "publishRemark=" + text,
+
+                success: function (data) {
+                    if (data != null && data.code == 200) {
+                        layer.msg(data.msg);
+                    } else if (data != null) {
+                        layer.alert(data.msg, {
+                            title: '信息：'
+                        })
+                    } else {
+                        layer.alert("出现位置错误，请刷新页面", {
+                            title: '信息：'
+                        })
+                    }
+                    table.reload('demo');
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    if(XMLHttpRequest!=null && XMLHttpRequest.status){
+                        layer.alert("操作失败，如果长时间未操作，请重新登陆 status："+XMLHttpRequest.status);
+                    }
+                    layer.alert("操作失败，如果长时间未操作，请重新登陆");
+                }
+            });
+            // layer.msg('您最后写下了：'+text);
+        });
+    }
+
+    function openParentActive(text) {
+        parent.parentAddTab(text);
+        // parent.parentActive.tabAdd("/welcome12.html", "welcom12e", "欢迎123");
+        //最后不管是否新增tab，最后都转到要打开的选项页面上
+        // parent.parentActive.tabChange("welcom12e");
+    }
+
+    function addDynamicTarget() {
+        layer.open({
+            type: 2,
+            title: '动态标签生成',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['45%', '60%'],
+            content: '/content/dynamicTarget.html' //iframe的url
+        });
+    }
+
+</script>
+
+
+
+
+</body>
+
+</html>

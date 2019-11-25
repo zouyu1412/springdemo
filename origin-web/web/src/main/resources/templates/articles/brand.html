@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common :: head"/>
+<style>
+    .layui-body {
+        overflow-y: hidden;
+    }
+    .layui-table-cell{
+        height:auto !important;
+    }
+</style>
+<body th:if="${sysAuthority.hasRole('ROLE_STREAM')}">
+
+<div class="layui-form layui-input-block" lay-filter="selFilter" >
+    <div class="layui-inline" style="width:300px; margin-right:20px">
+        <select id="select" >
+            <option value="">请选择</option>
+        </select>
+    </div>
+    <button class="layui-btn layui-btn-sm layui-inline" onclick="addToBlackList()">加入黑名单</button>
+</div>
+
+
+<input type="hidden" th:value="${type}" id="moduleType"/>
+<table id="table" lay-filter="test"></table>
+
+
+<script>
+    //下拉选择框
+    layui.use('form', function(){
+        var form = layui.form;
+        $.ajax({
+            type : "POST",
+            url : '/article/brandList',
+            dataType : "json",
+            success : function(data) {
+                layui.each(data, function (index) {
+                    $("#select").append('<option value="'
+                        + data[index].id + '">'
+                        + data[index].nameZh + '</option>');
+                });
+                form.render('select');
+                //form.render('select', 'selFilter');
+            }
+        });
+    });
+
+    //添加黑名单按钮
+    function addToBlackList() {
+        var brandId = $("#select").val();
+        $.ajax({
+            url: "/article/brandBlackList/" + brandId,
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                if (data != null) {
+                    layer.msg(data.msg);
+                    location.reload();
+                } else {
+                    layer.alert("出现未知错误，请稍后重试");
+                }
+            }
+        });
+    };
+
+
+    var type = $('#moduleType').attr("value");
+    //黑名单表
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#table'
+            , url: '/article/listStreamModule/' + type //数据接口
+            , page: true //开启分页
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }
+            //表头
+            , cols: [ [
+                { field: 'id', title: 'ID', width: 60}
+                ,{ field: 'moduleId', title: '品牌id' }
+                ,{ field: 'moduleName', title: '品牌名称' }
+                ,{ field: 'cover', title: '品牌LOGO', templet:'<div style="width:50px" ><img src="{{d.cover}}" ></div>'}
+                ,{ field: 'mod', title: '从黑名单移除', templet: '#operation'}
+            ] ]
+        });
+    });
+
+
+    //从黑名单移除
+    function remove(text) {
+        var url = $(text).attr("data-url");
+        $.ajax({
+            url: url,
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                if (data != null) {
+                    layer.msg(data.msg);
+                    location.reload();
+                } else {
+                    layer.alert("出现未知错误，请稍后重试");
+                }
+            }
+        });
+    };
+</script>
+
+
+<script type="text/html" id="operation">
+    <intput type="button" class="layui-table-link site-demo-active" value="123" data-url="/article/delModule/{{d.id}}/{{type}}" onclick="remove(this)" >移除</intput>
+</script>
+
+</body>
+</html>
