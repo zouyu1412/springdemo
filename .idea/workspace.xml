@@ -2,14 +2,228 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cd392ab-b68e-4349-a003-7795820809bb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/auto-ai.log.2019-09-25.0.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/AnyBaseToAnyBase.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/AnyBaseToDecimal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/AnytoAny.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/BinaryToDecimal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/BinaryToHexadecimal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/BinaryToOctal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/DecimalToAnyBase.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/DecimalToBinary.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/DecimalToHexaDecimal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/DecimalToOctal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/HexToOct.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/HexaDecimalToBinary.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/HexaDecimalToDecimal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/IntegerToRoman.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/OctalToDecimal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/OctalToHexadecimal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/RomanToInteger$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Conversions/RomanToInteger.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Bags/Bag$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Bags/Bag$ListIterator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Bags/Bag$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Bags/Bag.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Buffers/CircularBuffer$TestReadWorker.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Buffers/CircularBuffer$TestWriteWorker.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Buffers/CircularBuffer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/AdjacencyListGraph$Vertex.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/AdjacencyListGraph.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/AdjacencyMatrixGraph.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/BellmanFord$Edge.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/BellmanFord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/ConnectedComponent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/Cycle.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/Cycles.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/FloydWarshall.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/Graph$Edge.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/Graph$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/Graph.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/Graphs.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/MatrixGraphs.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Graphs/PrimMST.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/HashMap/Hashing/HashMap.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/HashMap/Hashing/LinkedList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/HashMap/Hashing/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/HashMap/Hashing/Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Heaps/EmptyHeapException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Heaps/Heap.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Heaps/HeapElement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Heaps/MaxHeap.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Heaps/MinHeap.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Heaps/MinPriorityQueue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/CircleLinkedList$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/CircleLinkedList$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/CircleLinkedList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/CursorLinkedList$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/CursorLinkedList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/DoublyLinkedList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/Link.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/MergeSortedArrayList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/Merge_K_SortedLinkedlist$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/Merge_K_SortedLinkedlist.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Lists/SinglyLinkedList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Queues/GenericArrayListQueue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Queues/PriorityQueue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Queues/PriorityQueues.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Queues/Queue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Queues/Queues.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Stacks/BalancedBrackets.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Stacks/LinkedListStack.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Stacks/Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Stacks/NodeStack.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Stacks/StackArray.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Stacks/StackArrayList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Stacks/StackOfLinkedList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/AVLTree$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/AVLTree.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/BinaryTree$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/BinaryTree.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/GenericTree$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/GenericTree$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/GenericTree.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/LevelOrderTraversal$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/LevelOrderTraversal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/LevelOrderTraversalQueue$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/LevelOrderTraversalQueue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/PrintTopViewofTree.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/QItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/RedBlackBST$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/RedBlackBST.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/Tree.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/TreeNode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/TreeTraversal.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/TrieImp$TrieNode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/TrieImp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/ValidBSTOrNot$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DataStructures/Trees/ValidBSTOrNot.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/CoinChange.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/EditDistance.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/EggDropping.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/Fibonacci.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/FordFulkerson.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/KadaneAlgorithm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/Knapsack.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/LevenshteinDistance.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/LongestCommonSubsequence.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/LongestIncreasingSubsequence.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/LongestValidParentheses.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/Matrix.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/MatrixChainMultiplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/DynamicProgramming/RodCutting.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/AbsoluteMax.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/AbsoluteMin.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/AbsoluteValue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/Factorial.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/FindMax.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/FindMaxRecursion.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/FindMin.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/FindMinRecursion.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/GCD.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/GCDRecursion.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/MaxValue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/MinValue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/PalindromeNumber.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/PerfectNumber.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Maths/PrimeCheck.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/MinimizingLateness/MinimizingLateness$Schedule.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/MinimizingLateness/MinimizingLateness.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Misc/MedianOfRunningArray.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Misc/PalindromePrime.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Misc/heap_sort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Abecedarian.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Armstrong.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/BrianKernighanAlgorithm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/CRC32.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/CRCAlgorithm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/CountChar.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/CountWords.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Dijkshtra.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Dijkstra.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/EulersFunction.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Factorial.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/FibToN.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/FloydTriangle.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Graph$Edge.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Graph$Vertex.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Graph.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/GuassLegendre.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/InsertDeleteInArray.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/KMP.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Krishnamurthy.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/LinearCongruentialGenerator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/LowestBasePalindrome.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Palindrome.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/PasswordGen.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/PerlinNoise.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/PowerOfTwoOrNot.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Process.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/QueueUsingTwoStacks.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/QueueWithStack.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/RemoveDuplicateFromString.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/ReturnSubsequence.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/ReverseStackUsingRecursion.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/ReverseString.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/RootPrecision.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/SJF.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Schedule$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Schedule$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/Schedule.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/SieveOfEratosthenes.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/SkylineProblem$Building.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/SkylineProblem$Skyline.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/SkylineProblem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/StackPostfixNotation.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/TopKWords$CountWords.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/TopKWords.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Others/TowerOfHanoi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Searches/BinarySearch.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Searches/InterpolationSearch.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Searches/IterativeBinarySearch.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Searches/IterativeTernarySearch.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Searches/LinearSearch.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Searches/SaddlebackSearch.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Searches/SearchAlgorithm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Searches/TernarySearch.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/BogoSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/BubbleSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/CocktailShakerSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/CombSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/CountingSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/CycleSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/GnomeSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/HeapSort$Heap.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/HeapSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/InsertionSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/MergeSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/PancakeSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/QuickSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/RadixSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/SelectionSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/ShellSort.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/SortAlgorithm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/Sorts/SortUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/ciphers/AES.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/ciphers/AESEncryption.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/ciphers/Caesar.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/ciphers/ColumnarTranspositionCipher.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/ciphers/RSA.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/ciphers/Vigenere.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/divideconquer/ClosestPair$Location.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/divideconquer/ClosestPair.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/divideconquer/SkylineAlgorithm$Point.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/divideconquer/SkylineAlgorithm$XComparator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/algorithm/divideconquer/SkylineAlgorithm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/thread/debug/DeadLock.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/starter/filter-log-starter/target/classes/com/ssp/starter/d.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/starter/filter-log-starter/target/classes/com/ssp/starter/filter/EnableLogFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/starter/filter-log-starter/target/classes/com/ssp/starter/filter/LogFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/starter/filter-log-starter/target/classes/com/ssp/starter/filter/LogFilterAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/starter/filter-log-starter/target/classes/com/ssp/starter/filter/LogFilterRegistrationBean.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/lock/LockSupportTest$ParkThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/lock/LockSupportTest$ParkThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/lock/LockSupportTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/lock/LockSupportTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/thread/Executor/CallableAndFuture$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/thread/Executor/CallableAndFuture$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/thread/Executor/CallableAndFuture.class" beforeDir="false" afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/thread/Executor/CallableAndFuture.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/thread/debug/AbstractQueuedSynchonizerDemo.class" beforeDir="false" afterPath="$PROJECT_DIR$/base/target/classes/com/ssp/higher/base/utils/thread/thread/debug/AbstractQueuedSynchonizerDemo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/target/classes/com/ssp/higher/WebApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/ssp/higher/WebApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/target/classes/com/ssp/higher/web/filter/CacheFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/ssp/higher/web/filter/CacheFilter.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/web/target/" />
@@ -184,8 +398,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/starter/filter-log-starter/src/main/java/com/ssp/starter/filter/EnableLogFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="18" column="75" lean-forward="true" selection-start-line="18" selection-start-column="75" selection-end-line="18" selection-end-column="75" />
+            <state relative-caret-position="323">
+              <caret line="17" column="35" lean-forward="true" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -410,7 +624,7 @@
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://D:/work/codes/myExe/ssp/springdemo/business/src/main/java/com/ssp/higher/business/myservice/FeignService.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574653703140" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574657847373" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/web/src/main/java/com/ssp/higher" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../projects/auto-miniprogram/auto-miniprogram" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -563,7 +777,7 @@
       <workItem from="1571119668654" duration="59338000" />
       <workItem from="1571538474135" duration="2715000" />
       <workItem from="1571621390343" duration="1101000" />
-      <workItem from="1574650003410" duration="3603000" />
+      <workItem from="1574650003410" duration="5388000" />
     </task>
     <task id="LOCAL-00001" summary="基础工作">
       <created>1565254187257</created>
@@ -586,11 +800,18 @@
       <option name="project" value="LOCAL" />
       <updated>1574653576796</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="自定义starter">
+      <created>1574653730809</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1574653730809</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="184324000" />
+    <option name="totallyTimeSpent" value="186109000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -605,7 +826,7 @@
     <frame x="1358" y="-320" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1945629" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1945629" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -616,7 +837,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.29641694" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5314499" visible="true" weight="0.36047775" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.5314499" visible="true" weight="0.36047775" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32790446" />
@@ -1176,8 +1397,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/starter/filter-log-starter/src/main/java/com/ssp/starter/filter/EnableLogFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="18" column="75" lean-forward="true" selection-start-line="18" selection-start-column="75" selection-end-line="18" selection-end-column="75" />
+        <state relative-caret-position="323">
+          <caret line="17" column="35" lean-forward="true" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
