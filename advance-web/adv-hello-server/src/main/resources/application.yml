@@ -1,0 +1,14 @@
+euraka:
+  instance:
+    hostname: client
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/path/eureka/
+
+server:
+  port: 8760
+
+spring:
+  application:
+    name: hello-server

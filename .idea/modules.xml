@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/advance-web/adv-eureka/adv-eureka.iml" filepath="$PROJECT_DIR$/advance-web/adv-eureka/adv-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/advance-web/adv-hello-client/adv-hello-client.iml" filepath="$PROJECT_DIR$/advance-web/adv-hello-client/adv-hello-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/advance-web/adv-hello-server/adv-hello-server.iml" filepath="$PROJECT_DIR$/advance-web/adv-hello-server/adv-hello-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/advance-web/advance-web.iml" filepath="$PROJECT_DIR$/advance-web/advance-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/origin-web/base/base.iml" filepath="$PROJECT_DIR$/origin-web/base/base.iml" />
       <module fileurl="file://$PROJECT_DIR$/origin-web/business/business.iml" filepath="$PROJECT_DIR$/origin-web/business/business.iml" />
       <module fileurl="file://$PROJECT_DIR$/starter/filter-log-starter/filter-log-starter.iml" filepath="$PROJECT_DIR$/starter/filter-log-starter/filter-log-starter.iml" />
       <module fileurl="file://$PROJECT_DIR$/higher.iml" filepath="$PROJECT_DIR$/higher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/my-netty.iml" filepath="$PROJECT_DIR$/my-netty/my-netty.iml" />
       <module fileurl="file://$PROJECT_DIR$/origin-web/origin-web.iml" filepath="$PROJECT_DIR$/origin-web/origin-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/starter/starter.iml" filepath="$PROJECT_DIR$/starter/starter.iml" />
       <module fileurl="file://$PROJECT_DIR$/origin-web/web/web.iml" filepath="$PROJECT_DIR$/origin-web/web/web.iml" />

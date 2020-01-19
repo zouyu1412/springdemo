@@ -6,13 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="base" />
+        <module name="web" />
+        <module name="adv-hello-server" />
+        <module name="adv-hello-client" />
         <module name="business" />
         <module name="filter-log-starter" />
-        <module name="web" />
+        <module name="base" />
+        <module name="adv-eureka" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="adv-eureka" target="1.8" />
+      <module name="adv-hello-client" target="1.8" />
+      <module name="adv-hello-server" target="1.8" />
+      <module name="advance-web" target="1.8" />
       <module name="base" target="1.8" />
       <module name="business" target="1.8" />
       <module name="filter-log-starter" target="1.8" />
@@ -21,5 +28,16 @@
       <module name="starter" target="1.8" />
       <module name="web" target="8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="adv-eureka" options="-parameters" />
+      <module name="adv-hello-client" options="-parameters" />
+      <module name="adv-hello-server" options="-parameters" />
+      <module name="base" options="-parameters" />
+      <module name="business" options="-parameters" />
+      <module name="filter-log-starter" options="-parameters" />
+      <module name="web" options="-parameters" />
+    </option>
   </component>
 </project>

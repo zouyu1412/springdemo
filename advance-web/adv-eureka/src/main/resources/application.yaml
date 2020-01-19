@@ -1,0 +1,130 @@
+server:
+  port: 8761
+#  servlet:
+#    context-path: /path
+spring:
+  profiles:
+    active: local
+  application:
+    #服务名称
+    name: eureka-server-local
+
+eureka:
+  server:
+    #关闭保护机制，以确保注册中心将不可用的实例正确剔除
+    enable-self-preservation: false
+    #（代表是10秒，单位是毫秒,清理失效服务的间隔 ）
+    eviction-interval-timer-in-ms: 10000
+  instance:
+    hostname: localhost
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: false
+    lease-expiration-duration-in-seconds: 20
+    lease-renewal-interval-in-seconds: 6
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+# 本地单点
+---
+server:
+  port: 8761
+spring:
+  profiles: local
+  application:
+    #服务名称
+    name: eureka-server-local
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+# 服务器单点
+---
+server:
+  port: 8761
+spring:
+  profiles: singlenode
+  application:
+    #服务名称
+    name: eureka-server-singlenode
+eureka:
+  instance:
+    hostname: singlenode
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:${server.port}/eureka/
+
+
+# 下面是3个集群高可用 每个项目只能启动一个单点 3个 组成一个集群
+---
+server:
+  port: 18761
+spring:
+  profiles: cluster-1
+  application:
+    #服务名称
+    name: eureka-server-cluster
+eureka:
+  instance:
+    hostname: dmo-eureka-server-cluster-1.runtime.svc.auto.domeos.local
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      #相互注册，组成一个集群，实现高可用
+      defaultZone: http://dmo-eureka-server-cluster-1.runtime.svc.auto.domeos.local:18761/eureka/,http://dmo-eureka-server-cluster-2.runtime.svc.auto.domeos.local:28761/eureka/,http://dmo-eureka-server-cluster-3.runtime.svc.auto.domeos.local:38761/eureka/
+
+---
+server:
+  port: 28761
+spring:
+  profiles: cluster-2
+  application:
+    #服务名称
+    name: eureka-server-cluster
+eureka:
+  instance:
+    hostname: dmo-eureka-server-cluster-2.runtime.svc.auto.domeos.local
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      #相互注册，组成一个集群，实现高可用
+      defaultZone: http://dmo-eureka-server-cluster-1.runtime.svc.auto.domeos.local:18761/eureka/,http://dmo-eureka-server-cluster-2.runtime.svc.auto.domeos.local:28761/eureka/,http://dmo-eureka-server-cluster-3.runtime.svc.auto.domeos.local:38761/eureka/
+
+---
+server:
+  port: 38761
+spring:
+  profiles: cluster-3
+  application:
+    #服务名称
+    name: eureka-server-cluster
+eureka:
+  instance:
+    hostname: dmo-eureka-server-cluster-3.runtime.svc.auto.domeos.local
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      #相互注册，组成一个集群，实现高可用
+      defaultZone: http://dmo-eureka-server-cluster-1.runtime.svc.auto.domeos.local:18761/eureka/,http://dmo-eureka-server-cluster-2.runtime.svc.auto.domeos.local:28761/eureka/,http://dmo-eureka-server-cluster-3.runtime.svc.auto.domeos.local:38761/eureka/
