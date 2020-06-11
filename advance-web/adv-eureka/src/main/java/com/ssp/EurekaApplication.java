@@ -14,6 +14,7 @@ public class EurekaApplication {
 
     public static void main(String[] args){
         SpringApplication.run(EurekaApplication.class,args);
+        byte[] b = new byte[1024*1024*1024];
     }
 
 }

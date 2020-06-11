@@ -9,6 +9,16 @@
     <file url="file://$PROJECT_DIR$/advance-web/adv-hello-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/advance-web/adv-hello-server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/advance-web/adv-hello-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/base-application/heartbeat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/base-application/rpc/apibase/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/base-application/rpc/client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/base-application/rpc/server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/base-application/tomcat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-consumer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-provider/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/origin-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/origin-web/base" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/origin-web/base/src/main/java" charset="UTF-8" />

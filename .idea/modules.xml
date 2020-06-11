@@ -6,13 +6,27 @@
       <module fileurl="file://$PROJECT_DIR$/advance-web/adv-hello-client/adv-hello-client.iml" filepath="$PROJECT_DIR$/advance-web/adv-hello-client/adv-hello-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/advance-web/adv-hello-server/adv-hello-server.iml" filepath="$PROJECT_DIR$/advance-web/adv-hello-server/adv-hello-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/advance-web/advance-web.iml" filepath="$PROJECT_DIR$/advance-web/advance-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/base-application/rpc/apibase/apibase.iml" filepath="$PROJECT_DIR$/my-netty/base-application/rpc/apibase/apibase.iml" />
       <module fileurl="file://$PROJECT_DIR$/origin-web/base/base.iml" filepath="$PROJECT_DIR$/origin-web/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/base-application/base-application.iml" filepath="$PROJECT_DIR$/my-netty/base-application/base-application.iml" />
       <module fileurl="file://$PROJECT_DIR$/origin-web/business/business.iml" filepath="$PROJECT_DIR$/origin-web/business/business.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/base-application/rpc/client/client.iml" filepath="$PROJECT_DIR$/my-netty/base-application/rpc/client/client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo.iml" filepath="$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-api/dubbo-api.iml" filepath="$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-api/dubbo-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-client/dubbo-client.iml" filepath="$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-client/dubbo-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-consumer/dubbo-consumer.iml" filepath="$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-consumer/dubbo-consumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-provider/dubbo-provider.iml" filepath="$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-provider/dubbo-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-server/dubbo-server.iml" filepath="$PROJECT_DIR$/my-netty/top-application/dubbo/dubbo-server/dubbo-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/starter/filter-log-starter/filter-log-starter.iml" filepath="$PROJECT_DIR$/starter/filter-log-starter/filter-log-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/base-application/heartbeat/heartbeat.iml" filepath="$PROJECT_DIR$/my-netty/base-application/heartbeat/heartbeat.iml" />
       <module fileurl="file://$PROJECT_DIR$/higher.iml" filepath="$PROJECT_DIR$/higher.iml" />
       <module fileurl="file://$PROJECT_DIR$/my-netty/my-netty.iml" filepath="$PROJECT_DIR$/my-netty/my-netty.iml" />
       <module fileurl="file://$PROJECT_DIR$/origin-web/origin-web.iml" filepath="$PROJECT_DIR$/origin-web/origin-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/base-application/rpc/rpc.iml" filepath="$PROJECT_DIR$/my-netty/base-application/rpc/rpc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/base-application/rpc/server/server.iml" filepath="$PROJECT_DIR$/my-netty/base-application/rpc/server/server.iml" />
       <module fileurl="file://$PROJECT_DIR$/starter/starter.iml" filepath="$PROJECT_DIR$/starter/starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/base-application/tomcat/tomcat.iml" filepath="$PROJECT_DIR$/my-netty/base-application/tomcat/tomcat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-netty/top-application/top-application.iml" filepath="$PROJECT_DIR$/my-netty/top-application/top-application.iml" />
       <module fileurl="file://$PROJECT_DIR$/origin-web/web/web.iml" filepath="$PROJECT_DIR$/origin-web/web/web.iml" />
     </modules>
   </component>

@@ -6,13 +6,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="web" />
-        <module name="adv-hello-server" />
-        <module name="adv-hello-client" />
-        <module name="business" />
         <module name="filter-log-starter" />
-        <module name="base" />
         <module name="adv-eureka" />
+        <module name="client" />
+        <module name="dubbo-api" />
+        <module name="heartbeat" />
+        <module name="dubbo-client" />
+        <module name="adv-hello-client" />
+        <module name="dubbo-provider" />
+        <module name="business" />
+        <module name="server" />
+        <module name="dubbo-consumer" />
+        <module name="base" />
+        <module name="dubbo-server" />
+        <module name="adv-hello-server" />
+        <module name="web" />
+        <module name="apibase" />
+        <module name="tomcat" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,12 +30,27 @@
       <module name="adv-hello-client" target="1.8" />
       <module name="adv-hello-server" target="1.8" />
       <module name="advance-web" target="1.8" />
+      <module name="apibase" target="1.8" />
       <module name="base" target="1.8" />
+      <module name="base-application" target="1.8" />
       <module name="business" target="1.8" />
+      <module name="client" target="1.8" />
+      <module name="dubbo" target="1.8" />
+      <module name="dubbo-api" target="1.8" />
+      <module name="dubbo-client" target="1.8" />
+      <module name="dubbo-consumer" target="1.8" />
+      <module name="dubbo-provider" target="1.8" />
+      <module name="dubbo-server" target="1.8" />
       <module name="filter-log-starter" target="1.8" />
+      <module name="heartbeat" target="1.8" />
       <module name="higher" target="1.8" />
+      <module name="my-netty" target="1.8" />
       <module name="origin-web" target="1.8" />
+      <module name="rpc" target="1.8" />
+      <module name="server" target="1.8" />
       <module name="starter" target="1.8" />
+      <module name="tomcat" target="1.8" />
+      <module name="top-application" target="1.8" />
       <module name="web" target="8" />
     </bytecodeTargetLevel>
   </component>
@@ -34,9 +59,24 @@
       <module name="adv-eureka" options="-parameters" />
       <module name="adv-hello-client" options="-parameters" />
       <module name="adv-hello-server" options="-parameters" />
+      <module name="apibase" options="-parameters" />
       <module name="base" options="-parameters" />
+      <module name="base-application" options="-parameters" />
       <module name="business" options="-parameters" />
+      <module name="client" options="-parameters" />
+      <module name="dubbo" options="-parameters" />
+      <module name="dubbo-api" options="-parameters" />
+      <module name="dubbo-client" options="-parameters" />
+      <module name="dubbo-consumer" options="-parameters" />
+      <module name="dubbo-provider" options="-parameters" />
+      <module name="dubbo-server" options="-parameters" />
       <module name="filter-log-starter" options="-parameters" />
+      <module name="heartbeat" options="-parameters" />
+      <module name="my-netty" options="-parameters" />
+      <module name="rpc" options="-parameters" />
+      <module name="server" options="-parameters" />
+      <module name="tomcat" options="-parameters" />
+      <module name="top-application" options="-parameters" />
       <module name="web" options="-parameters" />
     </option>
   </component>
